@@ -1,6 +1,10 @@
 # RTS-Universe
 
-Real Tme Strategy Game Java Spring Babylonjs
+Real time online space strategy game, based on classic 4X (Explore, Expand, Exploit, Exterminate) scenario.
+
+# Technology Used
+
+Java, Spring boot, Babylonjs, React, Postgresql
 
 # MVP
 
