@@ -6,4 +6,5 @@ public class Validator {
       throw new IllegalStateException(field + ": is required");
     }
   }
+
 }

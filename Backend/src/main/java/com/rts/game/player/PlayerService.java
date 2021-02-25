@@ -21,8 +21,7 @@ public class PlayerService {
   }
 
   public void createPlayer(Player player) {
-    checkFields(player.getEmail(), player.getName());
-    checkForEmail(player.getEmail());
+    validateNewUser(player.getEmail(), player.getName());
     playerRepository.save(player);
     System.out.println("Player " + player.getName() + " created !");
   }
@@ -30,14 +29,14 @@ public class PlayerService {
   private void checkForEmail(String email) {
     Optional<Player> playerByEmail =
         playerRepository.findByEmail(email);
-
     if (playerByEmail.isPresent()) {
       throw new IllegalStateException("Email taken");
     }
   }
 
-  private void checkFields(String emailValue, String nameValue) {
+  private void validateNewUser(String emailValue, String nameValue) {
     Validator.validateInputString("Email", emailValue);
     Validator.validateInputString("Name", nameValue);
+    checkForEmail(emailValue);
   }
 }

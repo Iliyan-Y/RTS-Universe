@@ -3,6 +3,7 @@ package com.rts.game.player;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/player")
@@ -22,4 +23,9 @@ public class PlayerController {
   public void createPlayer(@RequestBody Player player) {
       playerService.createPlayer(player);
   }
+
+//  @PostMapping(path = "/more")
+//  public void postPlay(@RequestBody Map<String, Object> params) {
+//    System.out.println(params.get("name"));
+//  }
 }
