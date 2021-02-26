@@ -1,5 +1,7 @@
 package com.rts.game.player;
 
+import com.rts.game.base.Base;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +20,10 @@ public class Player {
   @Column(name = "id")
   private Long id;
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "base_id", referencedColumnName = "id")
+  private Base base;
+
   private String name;
   private String email;
 
@@ -25,7 +31,8 @@ public class Player {
   public Player() {
   }
 
-  public Player(String name, String email) {
+  public Player(Base base, String name, String email) {
+    this.base = base;
     this.name = name;
     this.email = email;
   }
@@ -52,5 +59,13 @@ public class Player {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Base getBase() {
+    return base;
+  }
+
+  public void setBase(Base base) {
+    this.base = base;
   }
 }
