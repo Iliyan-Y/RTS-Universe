@@ -30,13 +30,13 @@ public class PlayerService {
     System.out.println("Player " + player.getName() + " created !");
   }
 
-  @Scheduled(fixedRate = 5500)
+  @Scheduled(fixedRate = 1 * 60 * 1000)
   @Transactional
   public void updateResources() {
     List<Player> players = playerRepository.findAll();
     if (!players.isEmpty()) {
       for (Player currentPlayer : players) {
-       currentPlayer.updateResources();
+       currentPlayer.updateAllResources(1);
       }
     }
   }
@@ -48,6 +48,7 @@ public class PlayerService {
       throw new IllegalStateException("Email taken");
     }
   }
+
 
   private void validateNewUser(String emailValue, String nameValue,
                                String baseName) {

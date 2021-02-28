@@ -72,9 +72,9 @@ public class Player {
     this.base = base;
   }
 
-  public void updateResources() {
-   base.setPower(base.getPower() + 1);
-    base.setPopulation(base.getPopulation() + 1);
-    base.setStardust(base.getStardust() + 1);
+  public void updateAllResources(int amount) {
+   base.setPower(base.getPower() + amount);
+    base.setPopulation(base.getPopulation() + amount);
+    base.setStardust(base.getStardust() + amount);
   }
 }
