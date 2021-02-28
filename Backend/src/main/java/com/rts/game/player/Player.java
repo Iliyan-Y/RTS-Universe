@@ -3,6 +3,9 @@ package com.rts.game.player;
 import com.rts.game.base.Base;
 
 import javax.persistence.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 @Entity
 @Table(name = "players")
@@ -67,5 +70,11 @@ public class Player {
 
   public void setBase(Base base) {
     this.base = base;
+  }
+
+  public void updateResources() {
+   base.setPower(base.getPower() + 1);
+    base.setPopulation(base.getPopulation() + 1);
+    base.setStardust(base.getStardust() + 1);
   }
 }
