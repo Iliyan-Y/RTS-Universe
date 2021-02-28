@@ -20,7 +20,12 @@ public class PlayerService {
     this.playerRepository = playerRepository;
   }
 
-  public List<Player> getAllPlayers() {
+  public List<Player> getAllPlayers()
+  {
+    Player player = playerRepository.findById(1L)
+        .orElseThrow(() -> new IllegalStateException("Player does NOT exists"));
+    player.getBase().build("TOwn", 0);
+    System.out.println(player.getBase().getBuildings());
     return playerRepository.findAll();
   }
 
@@ -30,7 +35,7 @@ public class PlayerService {
     System.out.println("Player " + player.getName() + " created !");
   }
 
-  @Scheduled(fixedRate = 1 * 60 * 1000)
+  @Scheduled(fixedRate = 2 * 60 * 1000)
   @Transactional
   public void updateResources() {
     List<Player> players = playerRepository.findAll();

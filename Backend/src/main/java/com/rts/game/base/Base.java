@@ -1,8 +1,12 @@
 package com.rts.game.base;
 
+import com.rts.game.buildings.Building;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "base")
 public class Base {
@@ -21,6 +25,9 @@ public class Base {
 
   @OneToOne(mappedBy = "base")
   private Player player;
+
+  @OneToMany(mappedBy = "base")
+  private Set<Building> buildings;
 
   private String name;
   private int power = 10;
@@ -74,4 +81,14 @@ public class Base {
   public void setStardust(int stardust) {
     this.stardust = stardust;
   }
+
+  public Set<Building> getBuildings() {
+    return buildings;
+  }
+
+  public void build(String name, int level) {
+    Building structure = new Building(name, level);
+    this.buildings.add(structure);
+  }
+
 }
