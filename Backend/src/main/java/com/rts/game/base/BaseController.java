@@ -15,7 +15,6 @@ public class BaseController {
     this.baseService = baseService;
   }
 
-
   @GetMapping(path = "{baseId}")
   public Base getBaseById(@PathVariable("baseId") Long baseId) {
       return baseService.getBaseById(baseId);

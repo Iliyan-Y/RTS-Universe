@@ -1,20 +1,15 @@
 package com.rts.game.player;
 
-import com.rts.game.base.BaseManager;
-import com.rts.game.buildings.Dockyard;
-import com.rts.game.buildings.StardustPit;
 import com.rts.game.helpers.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PlayerService {
   private final PlayerRepository playerRepository;
-
 
   @Autowired
   public PlayerService(PlayerRepository playerRepository) {
@@ -25,32 +20,11 @@ public class PlayerService {
     return playerRepository.findAll();
   }
 
-  @Transactional
-  public void test() {
-    Player player = playerRepository.findById(1L)
-        .orElseThrow(() -> new IllegalStateException("Player does NOT exists"));
-
-    BaseManager.buildStardustMine(player.getBase());
-
-    StardustPit mine = BaseManager.getStardustPit(player.getBase());
-    mine.setLevel(12);
-    mine.topUpStardust(player.getBase());
-    System.out.println(mine.info);
-    BaseManager.buildDockyard(player.getBase());
-
-    Dockyard dockyard = BaseManager.getDockyard(player.getBase());
-    dockyard.buildBattleship();
-    dockyard.buildBattleship();
-    System.out.println(dockyard.getShips());
-    System.out.println(player.getBase().getBuildings());
-  }
-
   public void createPlayer(Player player) {
     validateNewUser(player.getEmail(), player.getName(), player.getBase().getName());
     playerRepository.save(player);
     System.out.println("Player " + player.getName() + " created !");
   }
-
 
   private void checkForEmail(String email) {
     Optional<Player> playerByEmail =

@@ -22,7 +22,7 @@ public class BaseService {
     return base;
   }
 
-  @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millisec
+  @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional
   public void updateResources() {
     List<Base> allBases = baseRepository.findAll();
