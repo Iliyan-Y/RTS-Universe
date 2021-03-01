@@ -2,9 +2,8 @@ package com.rts.game.player;
 
 
 import com.rts.game.base.BaseManager;
-import com.rts.game.buildings.Building;
 import com.rts.game.buildings.Dockyard;
-import com.rts.game.buildings.StardustMine;
+import com.rts.game.buildings.StardustPit;
 import com.rts.game.helpers.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,20 +31,16 @@ public class PlayerService {
   public void test() {
     Player player = playerRepository.findById(1L)
         .orElseThrow(() -> new IllegalStateException("Player does NOT exists"));
-   player.getBase().getBuildings().add(new Building("dock"));
-   player.getBase().buildMine();
 
-    StardustMine mine = (StardustMine) player.getBase().getBuildings().stream()
-        .filter(object -> object.getType().equals("Mine v1"))
-        .findFirst().get();
+    BaseManager.buildStardustMine(player.getBase());
+
+    StardustPit mine = BaseManager.getStardustPit(player.getBase());
     mine.setLevel(12);
     mine.topUpStardust(player.getBase());
     System.out.println(mine.info);
     BaseManager.buildDockyard(player.getBase());
 
-    Dockyard dockyard = (Dockyard) player.getBase().getBuildings().stream()
-        .filter(object -> object.getType().equals("doker one"))
-        .findFirst().get();
+    Dockyard dockyard = BaseManager.getDockyard(player.getBase());
     dockyard.buildBattleship();
     dockyard.buildBattleship();
     System.out.println(dockyard.getShips());

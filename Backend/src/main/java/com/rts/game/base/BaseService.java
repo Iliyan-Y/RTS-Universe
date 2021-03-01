@@ -1,6 +1,5 @@
 package com.rts.game.base;
 
-import com.rts.game.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,13 @@
 package com.rts.game.buildings;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Dockyard extends Building{
   private int ships = 0;
+
+  public Dockyard() {
+  }
 
   public Dockyard(String type) {
     super(type);

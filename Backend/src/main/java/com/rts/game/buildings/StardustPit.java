@@ -2,10 +2,16 @@ package com.rts.game.buildings;
 
 import com.rts.game.base.Base;
 
-public class StardustMine extends Building{
+import javax.persistence.Entity;
+
+@Entity
+public class StardustPit extends Building{
   public String info = "This mine increase stardust production";
 
-  public StardustMine(String type) {
+  public StardustPit() {
+  }
+
+  public StardustPit(String type) {
     super(type);
   }
 

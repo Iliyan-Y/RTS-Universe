@@ -1,12 +1,9 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
-import com.rts.game.buildings.Dockyard;
-import com.rts.game.buildings.StardustMine;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -48,10 +45,6 @@ public class Base {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
   }
@@ -86,15 +79,6 @@ public class Base {
 
   public Set<Building> getBuildings() {
     return buildings;
-  }
-
-  public void build() {
-    this.getBuildings().add(new Building("tesr1"));
-    this.buildings.add(new Building("test2"));
-  }
-
-  public void buildMine() {
-    this.buildings.add(new StardustMine("Mine v1"));
   }
 
 }

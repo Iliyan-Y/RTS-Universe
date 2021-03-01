@@ -3,6 +3,7 @@ package com.rts.game.buildings;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "buildings")
 public class Building {
   @Id
