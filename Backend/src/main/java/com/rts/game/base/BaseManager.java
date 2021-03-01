@@ -1,31 +1,33 @@
 package com.rts.game.base;
 
+import com.rts.game.buildings.Building;
 import com.rts.game.buildings.Dockyard;
 import com.rts.game.buildings.SpaceHotel;
 import com.rts.game.buildings.StardustPit;
 import com.rts.game.helpers.Validator;
 
+import java.util.Optional;
+
 public class BaseManager {
 
   public static void buildDockyard(Base base) {
-    Validator.checkResource(base, 2,1,1);
-    base.getBuildings().add(new Dockyard("Dockyard"));
-  }
+    if (Validator.checkForBuilding(base, "Dockyard")) {
+       throw new IllegalStateException("Dockyard is already build");
+     }
 
-  public static Dockyard getDockyard(Base base) {
-    return (Dockyard) base.getBuildings().stream()
-        .filter(building -> building.getType().equals("Dockyard"))
-        .findFirst().get();
+    int powerRequired = Dockyard.defaultReq("power");
+    int stardustRequired = Dockyard.defaultReq("stardust");
+    int populationRequired = Dockyard.defaultReq("population");
+    Validator.checkResource(base, powerRequired, stardustRequired, populationRequired);
+    base.getBuildings().add(new Dockyard("Dockyard"));
+    updateResourceAfterBuild(base, powerRequired, stardustRequired, populationRequired);
   }
 
   public static void buildStardustMine(Base base) {
+    if (Validator.checkForBuilding(base, "Stardust pit")) {
+      throw new IllegalStateException("Stardust pit");
+    }
     base.getBuildings().add(new StardustPit("Stardust pit"));
-  }
-
-  public static StardustPit getStardustPit(Base base) {
-      return (StardustPit) base.getBuildings().stream()
-      .filter(building -> building.getType().equals("Stardust pit"))
-      .findFirst().get();
   }
 
   public static void buildHotel(Base base) {
@@ -34,11 +36,11 @@ public class BaseManager {
     base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
   }
 
-  public static SpaceHotel getHotel(Base base) {
-    return (SpaceHotel) base.getBuildings().stream()
-        .filter(building -> building.getType().equals("Space Hotel"))
-        .findFirst().get();
+  public static void updateResourceAfterBuild(Base base, int reqPower,
+                                              int reqStardust, int reqPopulation) {
+    base.setPower(base.getPower() - reqPower);
+    base.setStardust(base.getStardust() - reqStardust);
+    base.setPopulation(base.getPopulation() + reqPopulation);
   }
-
 
 }

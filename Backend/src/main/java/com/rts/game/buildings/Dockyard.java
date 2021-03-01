@@ -21,4 +21,17 @@ public class Dockyard extends Building{
   public int getShips() {
     return ships;
   }
+
+  public static int defaultReq(String resource) {
+    switch(resource) {
+      case "power":
+        return 2;
+      case "stardust":
+      case "population":
+        return 1;
+      default:
+        System.out.println("Please specify resource");
+        return 0;
+    }
+  }
 }

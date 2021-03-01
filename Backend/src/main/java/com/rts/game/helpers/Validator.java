@@ -1,6 +1,7 @@
 package com.rts.game.helpers;
 
 import com.rts.game.base.Base;
+import com.rts.game.buildings.Building;
 
 public class Validator {
   public static void validateInputString(String field, String value){
@@ -18,6 +19,16 @@ public class Validator {
     }
     if (reqStardust > base.getStardust()){ throw new IllegalStateException(
         "Not enough stardust");}
+  }
+
+  public static Boolean checkForBuilding(Base base, String buildingType) {
+    if (base.getBuildings().isEmpty()) {
+      return false;
+    }
+    Building dock = base.getBuildings().stream()
+        .filter(building -> building.getType().equals(buildingType))
+        .findFirst().get();
+    return dock.getType().equals(buildingType);
   }
 
 }
