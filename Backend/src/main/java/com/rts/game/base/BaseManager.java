@@ -3,10 +3,12 @@ package com.rts.game.base;
 import com.rts.game.buildings.Dockyard;
 import com.rts.game.buildings.SpaceHotel;
 import com.rts.game.buildings.StardustPit;
+import com.rts.game.helpers.Validator;
 
 public class BaseManager {
 
   public static void buildDockyard(Base base) {
+    Validator.checkResource(base, 2,1,1);
     base.getBuildings().add(new Dockyard("Dockyard"));
   }
 

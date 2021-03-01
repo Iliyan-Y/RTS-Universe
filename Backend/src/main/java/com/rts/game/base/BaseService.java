@@ -22,13 +22,19 @@ public class BaseService {
     return base;
   }
 
+  @Transactional
+  public void test(){
+    Base base = getBaseById(1L);
+    BaseManager.buildDockyard(base);
+  }
+
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional
-  public void updateResources() {
+  public void timeResourceUpdate() {
     List<Base> allBases = baseRepository.findAll();
     if (!allBases.isEmpty()) {
       for (Base currentBase : allBases) {
-        currentBase.updateResources();
+        currentBase.timeResourceUpdate();
       }
     }
   }

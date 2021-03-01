@@ -20,4 +20,9 @@ public class BaseController {
       return baseService.getBaseById(baseId);
   }
 
+  @GetMapping(path = "test")
+  public void test () {
+    baseService.test();
+  }
+
 }
