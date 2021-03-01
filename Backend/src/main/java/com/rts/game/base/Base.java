@@ -30,8 +30,10 @@ public class Base {
 
   private String name;
   private int power = 10;
-  private int population = 10;
+  private int capacity = 10;
   private int stardust = 10;
+  private int powerPerHour = 1;
+  private int stardustPerHour = 1;
 
   public Base() {
   }
@@ -61,12 +63,12 @@ public class Base {
     this.power = power;
   }
 
-  public int getPopulation() {
-    return population;
+  public int getCapacity() {
+    return capacity;
   }
 
-  public void setPopulation(int population) {
-    this.population = population;
+  public void setCapacity(int capacity) {
+    this.capacity = capacity;
   }
 
   public int getStardust() {
@@ -81,4 +83,19 @@ public class Base {
     return buildings;
   }
 
+  public int getPowerPerHour() {
+    return powerPerHour;
+  }
+
+  public void setPowerPerHour(int powerPerHour) {
+    this.powerPerHour = powerPerHour;
+  }
+
+  public int getStardustPerHour() {
+    return stardustPerHour;
+  }
+
+  public void setStardustPerHour(int stardustPerHour) {
+    this.stardustPerHour = stardustPerHour;
+  }
 }

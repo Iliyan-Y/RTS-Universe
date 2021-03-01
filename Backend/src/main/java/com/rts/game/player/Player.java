@@ -70,7 +70,7 @@ public class Player {
 
   public void updateAllResources(int amount) {
    base.setPower(base.getPower() + amount);
-    base.setPopulation(base.getPopulation() + amount);
+    base.setCapacity(base.getCapacity() + amount);
     base.setStardust(base.getStardust() + amount);
   }
 }

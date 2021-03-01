@@ -1,6 +1,7 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Dockyard;
+import com.rts.game.buildings.SpaceHotel;
 import com.rts.game.buildings.StardustPit;
 
 public class BaseManager {
@@ -23,6 +24,18 @@ public class BaseManager {
       return (StardustPit) base.getBuildings().stream()
       .filter(building -> building.getType().equals("Stardust pit"))
       .findFirst().get();
+  }
+
+  public static void buildHotel(Base base) {
+    SpaceHotel spaceHotel = new SpaceHotel("Space Hotel");
+    base.getBuildings().add(spaceHotel);
+    base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
+  }
+
+  public static SpaceHotel getHotel(Base base) {
+    return (SpaceHotel) base.getBuildings().stream()
+        .filter(building -> building.getType().equals("Space Hotel"))
+        .findFirst().get();
   }
 
 }
