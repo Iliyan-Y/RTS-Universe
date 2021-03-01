@@ -32,8 +32,8 @@ public class Base {
   private int power = 10;
   private int capacity = 10;
   private int stardust = 10;
-  private int powerPerHour = 1;
-  private int stardustPerHour = 1;
+  private int powerPerTime = 1;
+  private int stardustPerTime = 1;
 
   public Base() {
   }
@@ -83,19 +83,25 @@ public class Base {
     return buildings;
   }
 
-  public int getPowerPerHour() {
-    return powerPerHour;
+  public int getPowerPerTime() {
+    return powerPerTime;
   }
 
-  public void setPowerPerHour(int powerPerHour) {
-    this.powerPerHour = powerPerHour;
+  public void setPowerPerTime(int powerPerTime) {
+    this.powerPerTime = powerPerTime;
   }
 
-  public int getStardustPerHour() {
-    return stardustPerHour;
+  public int getStardustPerTime() {
+    return stardustPerTime;
   }
 
-  public void setStardustPerHour(int stardustPerHour) {
-    this.stardustPerHour = stardustPerHour;
+  public void setStardustPerTime(int stardustPerTime) {
+    this.stardustPerTime = stardustPerTime;
   }
+
+  public void updateResources() {
+    setPower(this.power + this.powerPerTime);
+    setStardust(this.stardust + this.stardustPerTime);
+  }
+
 }

@@ -64,13 +64,4 @@ public class Player {
     return base;
   }
 
-  public void setBase(Base base) {
-    this.base = base;
-  }
-
-  public void updateAllResources(int amount) {
-   base.setPower(base.getPower() + amount);
-    base.setCapacity(base.getCapacity() + amount);
-    base.setStardust(base.getStardust() + amount);
-  }
 }

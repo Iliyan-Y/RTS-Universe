@@ -1,12 +1,10 @@
 package com.rts.game.player;
 
-
 import com.rts.game.base.BaseManager;
 import com.rts.game.buildings.Dockyard;
 import com.rts.game.buildings.StardustPit;
 import com.rts.game.helpers.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,16 +51,6 @@ public class PlayerService {
     System.out.println("Player " + player.getName() + " created !");
   }
 
-  @Scheduled(fixedRate = 2 * 60 * 1000)
-  @Transactional
-  public void updateResources() {
-    List<Player> players = playerRepository.findAll();
-    if (!players.isEmpty()) {
-      for (Player currentPlayer : players) {
-       currentPlayer.updateAllResources(1);
-      }
-    }
-  }
 
   private void checkForEmail(String email) {
     Optional<Player> playerByEmail =
@@ -71,7 +59,6 @@ public class PlayerService {
       throw new IllegalStateException("Email taken");
     }
   }
-
 
   private void validateNewUser(String emailValue, String nameValue,
                                String baseName) {

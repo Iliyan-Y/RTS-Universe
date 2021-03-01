@@ -1,7 +1,11 @@
 package com.rts.game.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class BaseService {
@@ -16,5 +20,16 @@ public class BaseService {
     Base base = baseRepository.findById(baseId)
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
     return base;
+  }
+
+  @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millisec
+  @Transactional
+  public void updateResources() {
+    List<Base> allBases = baseRepository.findAll();
+    if (!allBases.isEmpty()) {
+      for (Base currentBase : allBases) {
+        currentBase.updateResources();
+      }
+    }
   }
 }
