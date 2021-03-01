@@ -1,7 +1,5 @@
 package com.rts.game.buildings;
 
-import com.rts.game.base.Base;
-
 import javax.persistence.*;
 
 @Entity
@@ -20,27 +18,22 @@ public class Building {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name="base_id", nullable=false)
-  private Base base;
-
-  private String name;
-  private int level;
+  private String type;
+  private int level = 0;
 
   public Building() {
   }
 
-  public Building(String name, int level) {
-    this.name = name;
-    this.level = level;
+  public Building(String type) {
+    this.type = type;
   }
 
-  public String getName() {
-    return name;
+  public String getType() {
+    return type;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public int getLevel() {

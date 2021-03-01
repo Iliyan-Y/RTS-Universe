@@ -1,6 +1,7 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
+import com.rts.game.buildings.StardustMine;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class Base {
   @OneToOne(mappedBy = "base")
   private Player player;
 
-  @OneToMany(mappedBy = "base")
+  @OneToMany( cascade = CascadeType.ALL)
   private Set<Building> buildings;
 
   private String name;
@@ -86,9 +87,13 @@ public class Base {
     return buildings;
   }
 
-  public void build(String name, int level) {
-    Building structure = new Building(name, level);
-    this.buildings.add(structure);
+  public void build() {
+    this.getBuildings().add(new Building("tesr1"));
+    this.buildings.add(new Building("test2"));
+  }
+
+  public void buildMine() {
+    this.buildings.add(new StardustMine("Mine v1"));
   }
 
 }

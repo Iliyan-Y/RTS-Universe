@@ -24,6 +24,10 @@ public class PlayerController {
       playerService.createPlayer(player);
   }
 
+  @GetMapping(path = "test")
+  public void testing() {
+    playerService.test();
+  }
   // Example
 //  @PostMapping(path = "/more")
 //  public void postPlay(@RequestBody Map<String, Object> params) {

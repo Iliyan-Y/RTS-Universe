@@ -27,7 +27,6 @@ public class Player {
   private String name;
   private String email;
 
-
   public Player() {
   }
 
