@@ -1,6 +1,7 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
+import com.rts.game.buildings.Dockyard;
 import com.rts.game.buildings.StardustMine;
 import com.rts.game.player.Player;
 
