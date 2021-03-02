@@ -21,7 +21,7 @@ public class BaseController {
   }
 
   @GetMapping(path = "dockyard")
-  public void test () {
+  public void buildDockyard() {
     baseService.buildDockyard();
   }
 

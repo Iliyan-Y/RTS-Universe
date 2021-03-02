@@ -27,7 +27,6 @@ public class BaseManager {
 
   }
 
-
   public static void buildStardustMine(Base base) {
     if (Validator.checkForBuilding(base, "Stardust pit")) {
       throw new IllegalStateException("Stardust pit");

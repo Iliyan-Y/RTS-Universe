@@ -25,11 +25,15 @@ public class BuildingService {
   @Transactional
   public void completeBuild() {
     Building building = getBuildingById(1L);
-
-    if (building.getCompleteTime().isBefore(LocalDateTime.now())) {
+    if (building.getCompleteTime().isAfter(LocalDateTime.now())) {
       throw new IllegalStateException("More time required");
     }
+    if (building.isBuild()) {
+      throw new IllegalStateException("Build completed");
+    }
+
     building.setBuild(true);
+    building.setLevel(building.getLevel() + 1);
   }
 
 }

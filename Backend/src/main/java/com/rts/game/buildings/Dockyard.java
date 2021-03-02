@@ -28,8 +28,9 @@ public class Dockyard extends Building{
         return 2 + this.getLevel();
       case "stardust":
       case "population":
-      case "time":
         return 1 + this.getLevel();
+      case "time":
+        return 2;
       default:
         throw new IllegalStateException("Please specify resource");
     }

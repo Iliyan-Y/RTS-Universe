@@ -23,6 +23,7 @@ public class Building {
   private String type;
   private int level = 0;
   private boolean build = false;
+  private boolean updating = false;
   private LocalDateTime completeTime;
 
   public Building() {
@@ -58,6 +59,14 @@ public class Building {
 
   public void setBuild(boolean build) {
     this.build = build;
+  }
+
+  public boolean isUpdating() {
+    return updating;
+  }
+
+  public void setUpdating(boolean updating) {
+    this.updating = updating;
   }
 
   public LocalDateTime getCompleteTime() {
