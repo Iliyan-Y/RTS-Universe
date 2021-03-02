@@ -22,16 +22,16 @@ public class Dockyard extends Building{
     return ships;
   }
 
-  public static int defaultReq(String resource) {
+  public int requiredResource(String resource) {
     switch(resource) {
       case "power":
-        return 2;
+        return 2 + this.getLevel();
       case "stardust":
       case "population":
-        return 1;
+      case "time":
+        return 1 + this.getLevel();
       default:
-        System.out.println("Please specify resource");
-        return 0;
+        throw new IllegalStateException("Please specify resource");
     }
   }
 }
