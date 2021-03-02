@@ -20,9 +20,9 @@ public class BaseController {
       return baseService.getBaseById(baseId);
   }
 
-  @GetMapping(path = "test")
+  @GetMapping(path = "dockyard")
   public void test () {
-    baseService.test();
+    baseService.buildDockyard();
   }
 
 }

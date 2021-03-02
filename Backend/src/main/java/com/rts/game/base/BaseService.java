@@ -1,18 +1,18 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
-import com.rts.game.buildings.Dockyard;
+import com.rts.game.buildings.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class BaseService {
   private final BaseRepository baseRepository;
+
 
   @Autowired
   public BaseService(BaseRepository baseRepository) {
@@ -20,22 +20,15 @@ public class BaseService {
   }
 
   public Base getBaseById(Long baseId) {
-    Base base = baseRepository.findById(baseId)
+    return baseRepository.findById(baseId)
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
-    return base;
   }
 
   @Transactional
-  public void test() {
+  public void buildDockyard() {
     Base base = getBaseById(1L);
-    completeBuild(base, BaseManager.buildDockyard(base));
+    BaseManager.buildDockyard(base);
   }
-
-  @Transactional
-  public void completeBuild(Base base, Building building) {
-
-  }
-
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional

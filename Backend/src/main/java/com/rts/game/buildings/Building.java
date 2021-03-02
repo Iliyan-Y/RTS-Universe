@@ -22,7 +22,7 @@ public class Building {
 
   private String type;
   private int level = 0;
-  private boolean buildStatus = false;
+  private boolean build = false;
   private LocalDateTime completeTime;
 
   public Building() {
@@ -30,6 +30,10 @@ public class Building {
 
   public Building(String type) {
     this.type = type;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getType() {
@@ -48,22 +52,17 @@ public class Building {
     this.level = level;
   }
 
-  public boolean isBuildStatus() {
-    return buildStatus;
+  public boolean isBuild() {
+    return build;
   }
 
-  public void setBuildStatus(boolean buildStatus) {
-    this.buildStatus = buildStatus;
+  public void setBuild(boolean build) {
+    this.build = build;
   }
 
   public LocalDateTime getCompleteTime() {
     return this.completeTime;
   }
-
-  //  public LocalDateTime getCompleteTime() {
-//    return LocalDateTime.parse(this.completeTime);
-//  }
-
 
   public void setCompleteTime(int minutes) {
     this.completeTime = LocalDateTime.now().plusMinutes(minutes);

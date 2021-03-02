@@ -6,15 +6,15 @@ import com.rts.game.buildings.SpaceHotel;
 import com.rts.game.buildings.StardustPit;
 import com.rts.game.helpers.Validator;
 
+import java.time.LocalDateTime;
 
 
 public class BaseManager {
 
-  public static Dockyard buildDockyard(Base base) {
+  public static void buildDockyard(Base base) {
     if (Validator.checkForBuilding(base, "Dockyard")) {
        throw new IllegalStateException("Dockyard is already build");
      }
-
     Dockyard dockyard = new Dockyard("Dockyard");
     int requiredPower = dockyard.requiredResource("power");
     int requiredStardust = dockyard.requiredResource("stardust");
@@ -22,9 +22,9 @@ public class BaseManager {
 
     Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
     updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
-    dockyard.setBuildStatus(true);
     dockyard.setCompleteTime(dockyard.requiredResource("time"));
-    return dockyard;
+    base.getBuildings().add(dockyard);
+
   }
 
 
@@ -41,9 +41,13 @@ public class BaseManager {
     base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
   }
 
-  public static void completeBuilding(Base base, Building building){
-    base.getBuildings().add(building);
-    building.setBuildStatus(false);
+  public static Building getBuilding(Base base, String type) {
+    if (base.getBuildings().isEmpty()) {
+      throw new IllegalStateException("Base is empty");
+    }
+    return base.getBuildings().stream()
+        .filter(building ->  building.getType().equals(type))
+        .findFirst().get();
   }
 
   public static void updateResourceAfterBuild(Base base, int reqPower,
