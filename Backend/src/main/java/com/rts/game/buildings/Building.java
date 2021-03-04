@@ -1,6 +1,7 @@
 package com.rts.game.buildings;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,12 +22,19 @@ public class Building {
 
   private String type;
   private int level = 0;
+  private boolean build = false;
+  private boolean updating = false;
+  private LocalDateTime completeTime;
 
   public Building() {
   }
 
   public Building(String type) {
     this.type = type;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getType() {
@@ -43,5 +51,29 @@ public class Building {
 
   public void setLevel(int level) {
     this.level = level;
+  }
+
+  public boolean isBuild() {
+    return build;
+  }
+
+  public void setBuild(boolean build) {
+    this.build = build;
+  }
+
+  public boolean isUpdating() {
+    return updating;
+  }
+
+  public void setUpdating(boolean updating) {
+    this.updating = updating;
+  }
+
+  public LocalDateTime getCompleteTime() {
+    return this.completeTime;
+  }
+
+  public void setCompleteTime(int minutes) {
+    this.completeTime = LocalDateTime.now().plusMinutes(minutes);
   }
 }

@@ -3,6 +3,9 @@ package com.rts.game.helpers;
 import com.rts.game.base.Base;
 import com.rts.game.buildings.Building;
 
+import java.util.Set;
+import java.util.stream.Stream;
+
 public class Validator {
   public static void validateInputString(String field, String value){
     if (value == null || value.isEmpty()) {
@@ -25,10 +28,9 @@ public class Validator {
     if (base.getBuildings().isEmpty()) {
       return false;
     }
-    Building dock = base.getBuildings().stream()
-        .filter(building -> building.getType().equals(buildingType))
-        .findFirst().get();
-    return dock.getType().equals(buildingType);
+    Stream buildings = base.getBuildings().stream()
+        .filter(building -> building.getType().equals(buildingType));
+    return buildings.count() != 0;
   }
 
 }

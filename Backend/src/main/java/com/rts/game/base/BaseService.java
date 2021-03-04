@@ -1,15 +1,18 @@
 package com.rts.game.base;
 
+import com.rts.game.buildings.Building;
+import com.rts.game.buildings.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BaseService {
   private final BaseRepository baseRepository;
+
 
   @Autowired
   public BaseService(BaseRepository baseRepository) {
@@ -17,16 +20,29 @@ public class BaseService {
   }
 
   public Base getBaseById(Long baseId) {
-    Base base = baseRepository.findById(baseId)
+    return baseRepository.findById(baseId)
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
-    return base;
   }
 
   @Transactional
-  public void test(){
-    Base base = getBaseById(1L);
+  public void buildDockyard(Long baseId) {
+    Base base = getBaseById(baseId);
     BaseManager.buildDockyard(base);
   }
+
+  @Transactional
+  public void buildHotel(Long baseId) {
+    Base base = getBaseById(baseId);
+    BaseManager.buildHotel(base);
+  }
+
+  @Transactional
+  public void buildPit(Long baseId) {
+    Base base = getBaseById(baseId);
+    BaseManager.buildStardustPit(base);
+  }
+
+
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional
