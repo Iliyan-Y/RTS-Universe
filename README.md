@@ -8,12 +8,12 @@ Java, Spring boot, Babylonjs, React, Postgresql
 
 # MVP
 
-- Each player has unique name
-- Each player has own base
-- The progress of the player is saved in real time.
-- Base have at least 3 type of resources: Power, Population,
-- Resources are earned hourly
-- Base have at least 3 buildings to be constructed
+- Each player has unique email :white_check_mark:
+- Each player has own base :white_check_mark:
+- The progress of the player is saved in real time. :white_check_mark:
+- Base have at least 3 type of resources: Power, Population, Stardust :white_check_mark:
+- Resources are earned hourly :white_check_mark:
+- Base have at least 3 buildings to be constructed :white_check_mark:
 - To construct buildings different time and resources are required.
 - Buildings have different abilities/production
 - Building have at least 3 updates
