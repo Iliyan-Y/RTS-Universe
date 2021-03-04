@@ -1,9 +1,6 @@
 package com.rts.game.base;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/v1/base")
@@ -20,9 +17,19 @@ public class BaseController {
       return baseService.getBaseById(baseId);
   }
 
-  @GetMapping(path = "dockyard")
-  public void buildDockyard() {
-    baseService.buildDockyard();
+  @GetMapping(path = "{baseId}/dockyard")
+  public void buildDockyard(@PathVariable("baseId") Long baseId) {
+    baseService.buildDockyard(baseId);
+  }
+
+  @GetMapping(path = "{baseId}/hotel")
+  public void buildHotel(@PathVariable("baseId") Long baseId) {
+    baseService.buildHotel(baseId);
+  }
+
+  @GetMapping(path = "{baseId}/pit")
+  public void buildPit(@PathVariable("baseId") Long baseId) {
+    baseService.buildPit(baseId);
   }
 
 }

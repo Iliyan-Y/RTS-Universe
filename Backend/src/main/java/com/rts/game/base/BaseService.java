@@ -25,10 +25,24 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildDockyard() {
-    Base base = getBaseById(1L);
+  public void buildDockyard(Long baseId) {
+    Base base = getBaseById(baseId);
     BaseManager.buildDockyard(base);
   }
+
+  @Transactional
+  public void buildHotel(Long baseId) {
+    Base base = getBaseById(baseId);
+    BaseManager.buildHotel(base);
+  }
+
+  @Transactional
+  public void buildPit(Long baseId) {
+    Base base = getBaseById(baseId);
+    BaseManager.buildStardustPit(base);
+  }
+
+
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional

@@ -24,13 +24,12 @@ public class Dockyard extends Building{
 
   public int requiredResource(String resource) {
     switch(resource) {
-      case "power":
-        return 2 + this.getLevel();
       case "stardust":
+        return 2 + this.getLevel();
+      case "power":
       case "population":
-        return 1 + this.getLevel();
       case "time":
-        return 2;
+        return 1 + this.getLevel();
       default:
         throw new IllegalStateException("Please specify resource");
     }

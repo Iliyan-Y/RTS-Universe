@@ -19,5 +19,17 @@ public class StardustPit extends Building{
     base.setStardust(base.getStardust() + 10);
   }
 
+  public int requiredResource(String resource) {
+    switch (resource) {
+      case "power":
+      case "population":
+        return 2 + this.getLevel();
+      case "stardust":
+      case "time":
+        return 1 + this.getLevel();
+      default:
+        throw new IllegalStateException("Please specify resource");
+    }
+  }
 
 }

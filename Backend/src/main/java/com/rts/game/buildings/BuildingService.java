@@ -23,8 +23,8 @@ public class BuildingService {
   }
 
   @Transactional
-  public void completeBuild() {
-    Building building = getBuildingById(1L);
+  public void completeBuild(Long buildingId) {
+    Building building = getBuildingById(buildingId);
     if (building.getCompleteTime().isAfter(LocalDateTime.now())) {
       throw new IllegalStateException("More time required");
     }
