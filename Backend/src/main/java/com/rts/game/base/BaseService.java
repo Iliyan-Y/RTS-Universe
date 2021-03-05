@@ -1,7 +1,9 @@
 package com.rts.game.base;
 
-import com.rts.game.buildings.Building;
-import com.rts.game.buildings.BuildingRepository;
+import com.rts.game.buildings.BuildingsType;
+import com.rts.game.buildings.Dockyard;
+import com.rts.game.buildings.SpaceHotel;
+import com.rts.game.buildings.StardustPit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,25 +26,24 @@ public class BaseService {
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
   }
 
+
   @Transactional
   public void buildDockyard(Long baseId) {
     Base base = getBaseById(baseId);
-    BaseManager.buildDockyard(base);
+    base.construct(new Dockyard(BuildingsType.DOCKYARD));
   }
 
   @Transactional
   public void buildHotel(Long baseId) {
     Base base = getBaseById(baseId);
-    BaseManager.buildHotel(base);
+    base.construct(new SpaceHotel(BuildingsType.SPACE_HOTEL));
   }
 
   @Transactional
   public void buildPit(Long baseId) {
     Base base = getBaseById(baseId);
-    BaseManager.buildStardustPit(base);
+    base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
   }
-
-
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional

@@ -1,10 +1,13 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
+import com.rts.game.buildings.BuildingsType;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "base")
@@ -92,6 +95,16 @@ public class Base {
     return buildings;
   }
 
+  public void construct(Building building) {
+    if(checkForBuilding(building.getType())) {
+      throw new IllegalStateException(building.getType() + " is already build");
+    }
+    checkResource(building.getCost(building.getType()));
+    updateResourceAfterBuild(building.getCost(building.getType()));
+    building.setCompleteTime(building.getCost(building.getType()).get("time"));
+    this.getBuildings().add(building);
+  }
+
   public int getPowerPerTime() {
     return powerPerTime;
   }
@@ -111,6 +124,32 @@ public class Base {
   public void timeResourceUpdate() {
     setPower(this.power + this.powerPerTime);
     setStardust(this.stardust + this.stardustPerTime);
+  }
+
+  private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
+    if (this.getBuildings().isEmpty()) {
+      return false;
+    }
+    Stream buildings = this.getBuildings().stream()
+        .filter(building -> building.getType().equals(buildingType));
+    return buildings.count() != 0;
+  }
+
+  private void checkResource(Map<String, Integer> cost) {
+    if (this.getCapacity() - this.getPopulation() < cost.get("population")) {
+      throw new IllegalStateException("Not enough capacity");
+    }
+    if (cost.get("power") > this.getPower() ) {
+      throw new IllegalStateException("Not enough power");
+    }
+    if (cost.get("stardust") > this.getStardust()){ throw new IllegalStateException(
+        "Not enough stardust");}
+  }
+
+  private void updateResourceAfterBuild(Map<String, Integer> cost) {
+    this.setPower(this.getPower() - cost.get("power"));
+    this.setStardust(this.getStardust() - cost.get("stardust"));
+    this.setPopulation(this.getPopulation() + cost.get("population"));
   }
 
 }
