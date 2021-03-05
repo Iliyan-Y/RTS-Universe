@@ -3,7 +3,7 @@ package com.rts.game.buildings;
 import javax.persistence.Entity;
 
 @Entity
-public class Dockyard extends Building{
+public class Dockyard extends Building {
   private int ships = 0;
 
   public Dockyard() {
@@ -22,16 +22,5 @@ public class Dockyard extends Building{
     return ships;
   }
 
-  public int requiredResource(String resource) {
-    switch(resource) {
-      case "stardust":
-        return 2 + this.getLevel();
-      case "power":
-      case "population":
-      case "time":
-        return 1 + this.getLevel();
-      default:
-        throw new IllegalStateException("Please specify resource");
-    }
-  }
+
 }

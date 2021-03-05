@@ -17,22 +17,17 @@ public class BaseController {
       return baseService.getBaseById(baseId);
   }
 
-  @GetMapping(path = "construct")
-  public void construct() {
-    baseService.construct();
-  }
-
-  @GetMapping(path = "{baseId}/dockyard")
+  @GetMapping(path = "{baseId}/build/dockyard")
   public void buildDockyard(@PathVariable("baseId") Long baseId) {
     baseService.buildDockyard(baseId);
   }
 
-  @GetMapping(path = "{baseId}/hotel")
+  @GetMapping(path = "{baseId}/build/hotel")
   public void buildHotel(@PathVariable("baseId") Long baseId) {
     baseService.buildHotel(baseId);
   }
 
-  @GetMapping(path = "{baseId}/pit")
+  @GetMapping(path = "{baseId}/build/pit")
   public void buildPit(@PathVariable("baseId") Long baseId) {
     baseService.buildPit(baseId);
   }

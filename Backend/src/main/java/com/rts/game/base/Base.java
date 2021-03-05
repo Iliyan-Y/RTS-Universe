@@ -100,6 +100,8 @@ public class Base {
       throw new IllegalStateException(building.getType() + " is already build");
     }
     checkResource(building.getCost(building.getType()));
+    updateResourceAfterBuild(building.getCost(building.getType()));
+    building.setCompleteTime(building.getCost(building.getType()).get("time"));
     this.getBuildings().add(building);
   }
 
@@ -142,6 +144,12 @@ public class Base {
     }
     if (cost.get("stardust") > this.getStardust()){ throw new IllegalStateException(
         "Not enough stardust");}
+  }
+
+  private void updateResourceAfterBuild(Map<String, Integer> cost) {
+    this.setPower(this.getPower() - cost.get("power"));
+    this.setStardust(this.getStardust() - cost.get("stardust"));
+    this.setPopulation(this.getPopulation() + cost.get("population"));
   }
 
 }

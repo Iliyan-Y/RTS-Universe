@@ -26,7 +26,6 @@ public class Building {
   private boolean build = false;
   private boolean updating = false;
   private LocalDateTime completeTime;
-  private Map cost;
 
   public Building() {
   }
@@ -79,6 +78,7 @@ public class Building {
   public void setCompleteTime(int minutes) {
     this.completeTime = LocalDateTime.now().plusMinutes(minutes);
   }
+
 
   public Map<String, Integer> getCost(Enum<BuildingsType> type) {
     if (BuildingsType.DOCKYARD.equals(type)) {

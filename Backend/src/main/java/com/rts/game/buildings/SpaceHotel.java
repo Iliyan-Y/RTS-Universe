@@ -21,18 +21,4 @@ public class SpaceHotel extends Building {
     this.capacity = capacity;
   }
 
-
-  public int requiredResource(String resource) {
-    switch(resource) {
-      case "power":
-        return 2 + this.getLevel();
-      case "stardust":
-      case "time":
-        return 1 + this.getLevel();
-      case "population":
-        return 0;
-      default:
-        throw new IllegalStateException("Please specify resource");
-    }
-  }
 }
