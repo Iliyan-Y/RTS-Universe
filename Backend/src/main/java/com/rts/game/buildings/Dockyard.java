@@ -9,7 +9,7 @@ public class Dockyard extends Building{
   public Dockyard() {
   }
 
-  public Dockyard(String type) {
+  public Dockyard(Enum<BuildingsType> type) {
     super(type);
   }
 

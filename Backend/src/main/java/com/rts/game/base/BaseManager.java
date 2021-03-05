@@ -8,55 +8,55 @@ import com.rts.game.helpers.Validator;
 
 public class BaseManager {
 
-  public static void buildDockyard(Base base) {
-    if (Validator.checkForBuilding(base, "Dockyard")) {
-       throw new IllegalStateException("Dockyard is already build");
-     }
-    Dockyard dockyard = new Dockyard("Dockyard");
-    int requiredPower = dockyard.requiredResource("power");
-    int requiredStardust = dockyard.requiredResource("stardust");
-    int requiredPopulation = dockyard.requiredResource("population");
+//  public static void buildDockyard(Base base) {
+//    if (Validator.checkForBuilding(base, "Dockyard")) {
+//       throw new IllegalStateException("Dockyard is already build");
+//     }
+//    Dockyard dockyard = new Dockyard("Dockyard");
+//    int requiredPower = dockyard.requiredResource("power");
+//    int requiredStardust = dockyard.requiredResource("stardust");
+//    int requiredPopulation = dockyard.requiredResource("population");
+//
+//    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
+//    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
+//    dockyard.setCompleteTime(dockyard.requiredResource("time"));
+//    base.getBuildings().add(dockyard);
+//  }
 
-    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
-    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
-    dockyard.setCompleteTime(dockyard.requiredResource("time"));
-    base.getBuildings().add(dockyard);
-  }
-
-  public static void buildHotel(Base base) {
-    if (Validator.checkForBuilding(base, "Space Hotel")) {
-      throw new IllegalStateException("Space Hotel is already build");
-    }
-
-    SpaceHotel spaceHotel = new SpaceHotel("Space Hotel");
-    int requiredPower = spaceHotel.requiredResource("power");
-    int requiredStardust = spaceHotel.requiredResource("stardust");
-    int requiredPopulation = spaceHotel.requiredResource("population");
-
-    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
-    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
-    spaceHotel.setCompleteTime(spaceHotel.requiredResource("time"));
-    base.getBuildings().add(spaceHotel);
-
-    // base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
-  }
-
-  public static void buildStardustPit(Base base) {
-    if (Validator.checkForBuilding(base, "Stardust pit")) {
-      throw new IllegalStateException("Stardust pit is already build");
-    }
-
-    StardustPit stardustPit = new StardustPit("Stardust pit");
-    int requiredPower = stardustPit.requiredResource("power");
-    int requiredStardust = stardustPit.requiredResource("stardust");
-    int requiredPopulation = stardustPit.requiredResource("population");
-
-    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
-    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
-    stardustPit.setCompleteTime(stardustPit.requiredResource("time"));
-    base.getBuildings().add(stardustPit);
-
-  }
+//  public static void buildHotel(Base base) {
+//    if (Validator.checkForBuilding(base, "Space Hotel")) {
+//      throw new IllegalStateException("Space Hotel is already build");
+//    }
+//
+//    SpaceHotel spaceHotel = new SpaceHotel("Space Hotel");
+//    int requiredPower = spaceHotel.requiredResource("power");
+//    int requiredStardust = spaceHotel.requiredResource("stardust");
+//    int requiredPopulation = spaceHotel.requiredResource("population");
+//
+//    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
+//    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
+//    spaceHotel.setCompleteTime(spaceHotel.requiredResource("time"));
+//    base.getBuildings().add(spaceHotel);
+//
+//    // base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
+//  }
+//
+//  public static void buildStardustPit(Base base) {
+//    if (Validator.checkForBuilding(base, "Stardust pit")) {
+//      throw new IllegalStateException("Stardust pit is already build");
+//    }
+//
+//    StardustPit stardustPit = new StardustPit("Stardust pit");
+//    int requiredPower = stardustPit.requiredResource("power");
+//    int requiredStardust = stardustPit.requiredResource("stardust");
+//    int requiredPopulation = stardustPit.requiredResource("population");
+//
+//    Validator.checkResource(base, requiredPower, requiredStardust, requiredPopulation);
+//    updateResourceAfterBuild(base, requiredPower, requiredStardust, requiredPopulation);
+//    stardustPit.setCompleteTime(stardustPit.requiredResource("time"));
+//    base.getBuildings().add(stardustPit);
+//
+//  }
 
   public static Building getBuilding(Base base, String type) {
     if (base.getBuildings().isEmpty()) {

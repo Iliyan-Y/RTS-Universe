@@ -2,6 +2,7 @@ package com.rts.game.buildings;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -20,16 +21,17 @@ public class Building {
   @Column(name = "id")
   private Long id;
 
-  private String type;
+  private Enum<BuildingsType> type;
   private int level = 0;
   private boolean build = false;
   private boolean updating = false;
   private LocalDateTime completeTime;
+  private Map cost;
 
   public Building() {
   }
 
-  public Building(String type) {
+  public Building(Enum<BuildingsType> type) {
     this.type = type;
   }
 
@@ -37,11 +39,12 @@ public class Building {
     return id;
   }
 
-  public String getType() {
+
+  public Enum<BuildingsType> getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(Enum<BuildingsType> type) {
     this.type = type;
   }
 
@@ -75,5 +78,19 @@ public class Building {
 
   public void setCompleteTime(int minutes) {
     this.completeTime = LocalDateTime.now().plusMinutes(minutes);
+  }
+
+  public Map<String, Integer> getCost(Enum<BuildingsType> type) {
+    if (BuildingsType.DOCKYARD.equals(type)) {
+      return Map.of("stardust", 2 + this.getLevel(), "power", 1, "population"
+          , 1, "time", 1 + this.getLevel());
+    } else if (BuildingsType.SPACE_HOTEL.equals(type)) {
+      return Map.of("stardust", 1, "power", 2 + this.getLevel(), "population"
+          , 0, "time", 1 + this.getLevel());
+    } else if (BuildingsType.STARDUST_PIT.equals(type)) {
+      return Map.of("stardust", 1, "power", 2 + this.getLevel(), "population"
+          , 2 + this.getLevel(), "time", 1 + this.getLevel());
+    }
+    throw new IllegalStateException("Please specify building type");
   }
 }

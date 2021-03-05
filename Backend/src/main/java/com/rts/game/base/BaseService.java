@@ -1,7 +1,6 @@
 package com.rts.game.base;
 
-import com.rts.game.buildings.Building;
-import com.rts.game.buildings.BuildingRepository;
+import com.rts.game.buildings.BuildingsType;
 import com.rts.game.buildings.Dockyard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,25 +27,25 @@ public class BaseService {
   @Transactional
   public void construct(){
     Base base = getBaseById(1L);
-    base.construct(new Dockyard("dockyard"));
+    base.construct(new Dockyard(BuildingsType.DOCKYARD));
   }
 
   @Transactional
   public void buildDockyard(Long baseId) {
-    Base base = getBaseById(baseId);
-    BaseManager.buildDockyard(base);
+//    Base base = getBaseById(baseId);
+//    BaseManager.buildDockyard(base);
   }
 
   @Transactional
   public void buildHotel(Long baseId) {
     Base base = getBaseById(baseId);
-    BaseManager.buildHotel(base);
+    //BaseManager.buildHotel(base);
   }
 
   @Transactional
   public void buildPit(Long baseId) {
     Base base = getBaseById(baseId);
-    BaseManager.buildStardustPit(base);
+   // BaseManager.buildStardustPit(base);
   }
 
 

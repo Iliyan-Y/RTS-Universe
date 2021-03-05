@@ -1,9 +1,11 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
+import com.rts.game.buildings.BuildingsType;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -97,7 +99,7 @@ public class Base {
     if(checkForBuilding(building.getType())) {
       throw new IllegalStateException(building.getType() + " is already build");
     }
-    //checkResource();
+    checkResource(building.getCost(building.getType()));
     this.getBuildings().add(building);
   }
 
@@ -122,7 +124,7 @@ public class Base {
     setStardust(this.stardust + this.stardustPerTime);
   }
 
-  private Boolean checkForBuilding(String buildingType) {
+  private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
     if (this.getBuildings().isEmpty()) {
       return false;
     }
@@ -131,14 +133,14 @@ public class Base {
     return buildings.count() != 0;
   }
 
-  private void checkResource(int reqPower, int reqStardust, int reqPopulation) {
-    if (this.getCapacity() - this.getPopulation() < reqPopulation ) {
+  private void checkResource(Map<String, Integer> cost) {
+    if (this.getCapacity() - this.getPopulation() < cost.get("population")) {
       throw new IllegalStateException("Not enough capacity");
     }
-    if (reqPower > this.getPower() ) {
+    if (cost.get("power") > this.getPower() ) {
       throw new IllegalStateException("Not enough power");
     }
-    if (reqStardust > this.getStardust()){ throw new IllegalStateException(
+    if (cost.get("stardust") > this.getStardust()){ throw new IllegalStateException(
         "Not enough stardust");}
   }
 

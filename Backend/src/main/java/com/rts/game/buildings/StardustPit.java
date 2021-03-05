@@ -11,7 +11,7 @@ public class StardustPit extends Building{
   public StardustPit() {
   }
 
-  public StardustPit(String type) {
+  public StardustPit(Enum<BuildingsType> type) {
     super(type);
   }
 

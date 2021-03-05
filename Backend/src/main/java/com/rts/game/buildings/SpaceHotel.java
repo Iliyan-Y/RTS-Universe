@@ -9,7 +9,7 @@ public class SpaceHotel extends Building {
   public SpaceHotel() {
   }
 
-  public SpaceHotel(String type) {
+  public SpaceHotel(Enum<BuildingsType> type) {
     super(type);
   }
 
