@@ -14,7 +14,7 @@ Java, Spring boot, Babylonjs, React, Postgresql
 - Base have at least 3 type of resources: Power, Population, Stardust :white_check_mark:
 - Resources are earned hourly :white_check_mark:
 - Base have at least 3 buildings to be constructed :white_check_mark:
-- To construct buildings different time and resources are required.
+- To construct buildings different time and resources are required. :white_check_mark:
 - Buildings have different abilities/production
 - Building have at least 3 updates
 - Buildings rewards are different in each update
