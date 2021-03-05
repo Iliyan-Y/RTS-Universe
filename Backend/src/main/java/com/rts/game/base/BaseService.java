@@ -2,6 +2,7 @@ package com.rts.game.base;
 
 import com.rts.game.buildings.Building;
 import com.rts.game.buildings.BuildingRepository;
+import com.rts.game.buildings.Dockyard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class BaseService {
   public Base getBaseById(Long baseId) {
     return baseRepository.findById(baseId)
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
+  }
+
+  @Transactional
+  public void construct(){
+    Base base = getBaseById(1L);
+    base.construct(new Dockyard("dockyard"));
   }
 
   @Transactional

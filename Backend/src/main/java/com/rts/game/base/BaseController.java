@@ -17,6 +17,11 @@ public class BaseController {
       return baseService.getBaseById(baseId);
   }
 
+  @GetMapping(path = "construct")
+  public void construct() {
+    baseService.construct();
+  }
+
   @GetMapping(path = "{baseId}/dockyard")
   public void buildDockyard(@PathVariable("baseId") Long baseId) {
     baseService.buildDockyard(baseId);

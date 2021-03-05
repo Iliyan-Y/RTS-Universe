@@ -5,6 +5,7 @@ import com.rts.game.player.Player;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "base")
@@ -92,6 +93,14 @@ public class Base {
     return buildings;
   }
 
+  public void construct(Building building) {
+    if(checkForBuilding(building.getType())) {
+      throw new IllegalStateException(building.getType() + " is already build");
+    }
+    //checkResource();
+    this.getBuildings().add(building);
+  }
+
   public int getPowerPerTime() {
     return powerPerTime;
   }
@@ -111,6 +120,26 @@ public class Base {
   public void timeResourceUpdate() {
     setPower(this.power + this.powerPerTime);
     setStardust(this.stardust + this.stardustPerTime);
+  }
+
+  private Boolean checkForBuilding(String buildingType) {
+    if (this.getBuildings().isEmpty()) {
+      return false;
+    }
+    Stream buildings = this.getBuildings().stream()
+        .filter(building -> building.getType().equals(buildingType));
+    return buildings.count() != 0;
+  }
+
+  private void checkResource(int reqPower, int reqStardust, int reqPopulation) {
+    if (this.getCapacity() - this.getPopulation() < reqPopulation ) {
+      throw new IllegalStateException("Not enough capacity");
+    }
+    if (reqPower > this.getPower() ) {
+      throw new IllegalStateException("Not enough power");
+    }
+    if (reqStardust > this.getStardust()){ throw new IllegalStateException(
+        "Not enough stardust");}
   }
 
 }
