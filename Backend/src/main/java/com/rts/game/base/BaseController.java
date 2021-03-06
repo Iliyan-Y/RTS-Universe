@@ -24,7 +24,7 @@ public class BaseController {
     baseService.buildDockyard(baseId);
   }
 
-  @PostMapping(path = "complete/pit")
+  @PostMapping(path = "complete/dockyard")
   public void completeDockyard(@RequestBody Map<String, Long > params) {
     baseService.completeDockyard(params.get("buildingId"));
   }
