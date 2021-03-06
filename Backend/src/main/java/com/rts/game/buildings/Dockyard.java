@@ -8,15 +8,6 @@ import java.util.Map;
 @Entity
 public class Dockyard extends Building {
   private int ships = 0;
-  private final Map<Enum<Resources>, Integer> battleshipCost =
-      Map.of(
-          Resources.POWER, 3,
-          Resources.STARDUST, 5,
-          Resources.POPULATION, 2,
-          Resources.TIME, 5,
-          Resources.LEVEL, 2
-      );
-
 
   public Dockyard() {
   }
@@ -36,12 +27,17 @@ public class Dockyard extends Building {
     this.ships += 1;
   }
 
-  public int getShips() {
-    return ships;
+   public Map<Enum<Resources>, Integer> getBattleshipCost() {
+    return Map.of(
+        Resources.POWER, 3,
+        Resources.STARDUST, 5,
+        Resources.POPULATION, 2,
+        Resources.TIME, 5,
+        Resources.LEVEL, 2
+    );
   }
 
-
-  public Map<Enum<Resources>, Integer> getBattleshipCost() {
-    return battleshipCost;
+  public int getShips() {
+    return ships;
   }
 }

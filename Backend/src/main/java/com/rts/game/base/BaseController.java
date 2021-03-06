@@ -2,6 +2,8 @@ package com.rts.game.base;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping(path = "api/v1/base")
 public class BaseController {
@@ -30,6 +32,11 @@ public class BaseController {
   @GetMapping(path = "{baseId}/build/pit")
   public void buildPit(@PathVariable("baseId") Long baseId) {
     baseService.buildPit(baseId);
+  }
+
+  @PostMapping(path = "complete/hotel")
+  public void completeHotel(@RequestBody Map<String, Long > params) {
+    baseService.completeHotel(params.get("baseId"), params.get("buildingId"));
   }
 
 }

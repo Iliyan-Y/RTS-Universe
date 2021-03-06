@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class SpaceHotel extends Building {
   private int capacity = 2;
+  public String info = "This building increase the capacity of the base";
 
   public SpaceHotel() {
   }

@@ -1,24 +1,24 @@
 package com.rts.game.base;
 
-import com.rts.game.buildings.BuildingsType;
-import com.rts.game.buildings.Dockyard;
-import com.rts.game.buildings.SpaceHotel;
-import com.rts.game.buildings.StardustPit;
+import com.rts.game.buildings.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class BaseService {
   private final BaseRepository baseRepository;
+  private BuildingService buildingService;
 
 
   @Autowired
-  public BaseService(BaseRepository baseRepository) {
+  public BaseService(BaseRepository baseRepository, BuildingService buildingService) {
     this.baseRepository = baseRepository;
+    this.buildingService = buildingService;
   }
 
   public Base getBaseById(Long baseId) {
@@ -38,6 +38,15 @@ public class BaseService {
     Base base = getBaseById(baseId);
     base.construct(new SpaceHotel(BuildingsType.SPACE_HOTEL));
   }
+
+  @Transactional
+  public void completeHotel(Long baseId, Long buildingId) {
+    SpaceHotel spaceHotel = (SpaceHotel) buildingService.getBuildingById(buildingId);
+    buildingService.completeBuild(spaceHotel);
+    Base base = getBaseById(baseId);
+    base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
+  }
+
 
   @Transactional
   public void buildPit(Long baseId) {

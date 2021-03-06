@@ -89,14 +89,14 @@ public class Building {
     Enum<Resources> time = Resources.TIME;
 
     if (BuildingsType.DOCKYARD.equals(type)) {
-      return Map.of(stardust, 12 + this.getLevel(), power, 1,
+      return Map.of(stardust, 2 + this.getLevel(), power, 1,
           population, 1, time, 1 + this.getLevel());
     } else if (BuildingsType.SPACE_HOTEL.equals(type)) {
       return Map.of(stardust, 1, power, 2 + this.getLevel(), population
           , 0, time, 1 + this.getLevel());
     } else if (BuildingsType.STARDUST_PIT.equals(type)) {
       return Map.of(stardust, 1, power, 2 + this.getLevel(), population
-          , 12 + this.getLevel(), time, 1 + this.getLevel());
+          , 2 + this.getLevel(), time, 1 + this.getLevel());
     }
     throw new IllegalStateException("Please specify building type");
   }
