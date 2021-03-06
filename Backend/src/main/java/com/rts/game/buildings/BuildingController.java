@@ -1,7 +1,5 @@
 package com.rts.game.buildings;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,10 +11,5 @@ public class BuildingController {
 
   public BuildingController(BuildingService buildingService) {
     this.buildingService = buildingService;
-  }
-
-  @GetMapping(path = "complete/{buildingId}")
-  public void completeBuilding(@PathVariable("buildingId") Long buildingId) {
-    buildingService.completeBuild(buildingId);
   }
 }
