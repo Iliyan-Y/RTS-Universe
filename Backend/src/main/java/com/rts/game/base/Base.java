@@ -101,7 +101,7 @@ public class Base {
     }
     checkResource(building.getCost(building.getType()));
     updateResourceAfterBuild(building.getCost(building.getType()));
-    building.setCompleteTime(building.getCost(building.getType()).get("time"));
+    building.setCompleteTime(building.getCost(building.getType()).get(Resources.TIME));
     this.getBuildings().add(building);
   }
 
@@ -130,26 +130,26 @@ public class Base {
     if (this.getBuildings().isEmpty()) {
       return false;
     }
-    Stream buildings = this.getBuildings().stream()
+    Stream<Building> buildings = this.getBuildings().stream()
         .filter(building -> building.getType().equals(buildingType));
     return buildings.count() != 0;
   }
 
-  private void checkResource(Map<String, Integer> cost) {
-    if (this.getCapacity() - this.getPopulation() < cost.get("population")) {
+  private void checkResource(Map<Enum<Resources>, Integer> cost) {
+    if (this.getCapacity() - this.getPopulation() < cost.get(Resources.POPULATION)) {
       throw new IllegalStateException("Not enough capacity");
     }
-    if (cost.get("power") > this.getPower() ) {
+    if (cost.get(Resources.POWER) > this.getPower() ) {
       throw new IllegalStateException("Not enough power");
     }
-    if (cost.get("stardust") > this.getStardust()){ throw new IllegalStateException(
+    if (cost.get(Resources.STARDUST) > this.getStardust()){ throw new IllegalStateException(
         "Not enough stardust");}
   }
 
-  private void updateResourceAfterBuild(Map<String, Integer> cost) {
-    this.setPower(this.getPower() - cost.get("power"));
-    this.setStardust(this.getStardust() - cost.get("stardust"));
-    this.setPopulation(this.getPopulation() + cost.get("population"));
+  private void updateResourceAfterBuild(Map<Enum<Resources>, Integer> cost) {
+    this.setPower(this.getPower() - cost.get(Resources.POWER));
+    this.setStardust(this.getStardust() - cost.get(Resources.STARDUST));
+    this.setPopulation(this.getPopulation() + cost.get(Resources.POPULATION));
   }
 
 }

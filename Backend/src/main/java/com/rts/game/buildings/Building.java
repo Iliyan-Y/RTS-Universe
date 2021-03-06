@@ -1,5 +1,7 @@
 package com.rts.game.buildings;
 
+import com.rts.game.base.Resources;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -80,16 +82,21 @@ public class Building {
   }
 
 
-  public Map<String, Integer> getCost(Enum<BuildingsType> type) {
+  public Map<Enum<Resources>, Integer> getCost(Enum<BuildingsType> type) {
+    Enum<Resources> power = Resources.POWER;
+    Enum<Resources> stardust = Resources.STARDUST;
+    Enum<Resources> population = Resources.POPULATION;
+    Enum<Resources> time = Resources.TIME;
+
     if (BuildingsType.DOCKYARD.equals(type)) {
-      return Map.of("stardust", 2 + this.getLevel(), "power", 1, "population"
-          , 1, "time", 1 + this.getLevel());
+      return Map.of(stardust, 12 + this.getLevel(), power, 1,
+          population, 1, time, 1 + this.getLevel());
     } else if (BuildingsType.SPACE_HOTEL.equals(type)) {
-      return Map.of("stardust", 1, "power", 2 + this.getLevel(), "population"
-          , 0, "time", 1 + this.getLevel());
+      return Map.of(stardust, 1, power, 2 + this.getLevel(), population
+          , 0, time, 1 + this.getLevel());
     } else if (BuildingsType.STARDUST_PIT.equals(type)) {
-      return Map.of("stardust", 1, "power", 2 + this.getLevel(), "population"
-          , 2 + this.getLevel(), "time", 1 + this.getLevel());
+      return Map.of(stardust, 1, power, 2 + this.getLevel(), population
+          , 12 + this.getLevel(), time, 1 + this.getLevel());
     }
     throw new IllegalStateException("Please specify building type");
   }
