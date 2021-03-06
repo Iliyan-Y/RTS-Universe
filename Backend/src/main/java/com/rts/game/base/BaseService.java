@@ -6,14 +6,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class BaseService {
   private final BaseRepository baseRepository;
-  private BuildingService buildingService;
-
+  private final BuildingService buildingService;
 
   @Autowired
   public BaseService(BaseRepository baseRepository, BuildingService buildingService) {
@@ -26,11 +24,16 @@ public class BaseService {
         .orElseThrow(() -> new IllegalStateException("Base does NOT exists"));
   }
 
-
   @Transactional
   public void buildDockyard(Long baseId) {
     Base base = getBaseById(baseId);
     base.construct(new Dockyard(BuildingsType.DOCKYARD));
+  }
+
+  @Transactional
+  public void completeDockyard(Long buildingId) {
+    Dockyard dockyard = (Dockyard) buildingService.getBuildingById(buildingId);
+    buildingService.completeBuild(dockyard);
   }
 
   @Transactional
@@ -47,11 +50,18 @@ public class BaseService {
     base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
   }
 
-
   @Transactional
   public void buildPit(Long baseId) {
     Base base = getBaseById(baseId);
     base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
+  }
+
+  @Transactional
+  public void completePit(Long baseId, Long buildingId) {
+    StardustPit stardustPit = (StardustPit) buildingService.getBuildingById(buildingId);
+    buildingService.completeBuild(stardustPit);
+    Base base = getBaseById(baseId);
+    base.setStardustPerTime(base.getStardustPerTime() + stardustPit.getProductionPerTime());
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis

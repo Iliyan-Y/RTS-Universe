@@ -24,9 +24,19 @@ public class BaseController {
     baseService.buildDockyard(baseId);
   }
 
+  @PostMapping(path = "complete/pit")
+  public void completeDockyard(@RequestBody Map<String, Long > params) {
+    baseService.completeDockyard(params.get("buildingId"));
+  }
+
   @GetMapping(path = "{baseId}/build/hotel")
   public void buildHotel(@PathVariable("baseId") Long baseId) {
     baseService.buildHotel(baseId);
+  }
+
+  @PostMapping(path = "complete/hotel")
+  public void completeHotel(@RequestBody Map<String, Long > params) {
+    baseService.completeHotel(params.get("baseId"), params.get("buildingId"));
   }
 
   @GetMapping(path = "{baseId}/build/pit")
@@ -34,9 +44,9 @@ public class BaseController {
     baseService.buildPit(baseId);
   }
 
-  @PostMapping(path = "complete/hotel")
-  public void completeHotel(@RequestBody Map<String, Long > params) {
-    baseService.completeHotel(params.get("baseId"), params.get("buildingId"));
+  @PostMapping(path = "complete/pit")
+  public void completePit(@RequestBody Map<String, Long > params) {
+    baseService.completePit(params.get("baseId"), params.get("buildingId"));
   }
 
 }
