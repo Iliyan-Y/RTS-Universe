@@ -5,6 +5,8 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
+  ActionManager,
+  ExecuteCodeAction,
 } from '@babylonjs/core';
 import SceneComponent from 'babylonjs-hook';
 import '@babylonjs/loaders';
@@ -36,15 +38,39 @@ const Base = () => {
     setCamera(scene);
     var light = new HemisphericLight('light', new Vector3(0, 5, 0), scene);
     light.intensity = 0.7;
-    base = MeshBuilder.CreateBox('base', { size: 1.8 }, scene);
-    dockyard = MeshBuilder.CreateBox('dockyard', { size: 1.5 }, scene);
-    spaceHotel = MeshBuilder.CreateBox('spaceHotel', { size: 1.5 }, scene);
-    stardustPit = MeshBuilder.CreateBox('stardustPit', { size: 1.5 }, scene);
+    base = MeshBuilder.CreateTorusKnot('base', { size: 0.5 }, scene);
+    dockyard = MeshBuilder.CreateBox('dockyard', { size: 2 }, scene);
 
-    dockyard.position = new Vector3(5, 0, 2);
-    spaceHotel.position.x = -5;
+    spaceHotel = MeshBuilder.CreateCylinder('spaceHotel', { size: 1.4 }, scene);
+    spaceHotel.scaling.y = 2;
+
+    stardustPit = MeshBuilder.CreateTorus('stardustPit', { size: 1.5 }, scene);
+
+    dockyard.position = new Vector3(-6, 0, 1);
+    spaceHotel.position = new Vector3(5, 0, 2);
     stardustPit.position = new Vector3(-2, 0, -5);
+
+    baseAction(scene);
+    hotelAction(scene);
   };
+
+  function baseAction(scene) {
+    base.actionManager = new ActionManager(scene);
+    base.actionManager.registerAction(
+      new ExecuteCodeAction(ActionManager.OnPickUpTrigger, function () {
+        alert('Base clicked');
+      })
+    );
+  }
+
+  function hotelAction(scene) {
+    spaceHotel.actionManager = new ActionManager(scene);
+    spaceHotel.actionManager.registerAction(
+      new ExecuteCodeAction(ActionManager.OnPickUpTrigger, function () {
+        alert('Space Hotel clicked');
+      })
+    );
+  }
 
   /**
    * Will run on every frame render.  We are spinning the box on y-axis.
