@@ -64,6 +64,13 @@ public class BaseService {
     base.setStardustPerTime(base.getStardustPerTime() + stardustPit.getProductionPerTime());
   }
 
+  @Transactional
+  public void upgradeBuilding(Long baseId, Long buildingId) {
+    Base base = getBaseById(baseId);
+    Building building = buildingService.getBuildingById(buildingId);
+    base.upgradeBuilding(building);
+  }
+
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional
   public void timeResourceUpdate() {

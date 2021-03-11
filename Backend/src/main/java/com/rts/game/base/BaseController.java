@@ -49,4 +49,9 @@ public class BaseController {
     baseService.completePit(params.get("baseId"), params.get("buildingId"));
   }
 
+  @PostMapping(path = "upgradeBuilding")
+  public void upgradeBuilding(@RequestBody Map<String, Long > params) {
+    baseService.upgradeBuilding(params.get("baseId"), params.get("buildingId"));
+  }
+
 }

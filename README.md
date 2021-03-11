@@ -9,7 +9,7 @@ Java, Spring boot, Babylonjs, React, Postgresql
 # MVP
 
 - Each player has unique email - backend: :white_check_mark: frontend: :black_square_button:
-- Each player has own base - backend: :white_check_mark: frontend: :black_square_button:
+- Each player has own base - backend: :white_check_mark: frontend: :white_check_mark:
 - The progress of the player is saved in real time. - backend: :white_check_mark: frontend: :black_square_button:
 - Base have at least 3 type of resources: Power, Population, Stardust - backend: :white_check_mark: frontend: :black_square_button:
 - Resources are earned hourly - backend: :white_check_mark: frontend: :black_square_button:

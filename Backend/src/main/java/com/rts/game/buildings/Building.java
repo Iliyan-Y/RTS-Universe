@@ -26,7 +26,7 @@ public class Building {
   private Enum<BuildingsType> type;
   private int level = 0;
   private boolean build = false;
-  private boolean updating = false;
+  private boolean upgrade = false;
   private LocalDateTime completeTime;
 
   public Building() {
@@ -65,12 +65,12 @@ public class Building {
     this.build = build;
   }
 
-  public boolean isUpdating() {
-    return updating;
+  public boolean isUpgrade() {
+    return upgrade;
   }
 
-  public void setUpdating(boolean updating) {
-    this.updating = updating;
+  public void setUpgrade(boolean upgrade) {
+    this.upgrade = upgrade;
   }
 
   public LocalDateTime getCompleteTime() {
@@ -80,7 +80,6 @@ public class Building {
   public void setCompleteTime(int minutes) {
     this.completeTime = LocalDateTime.now().plusMinutes(minutes);
   }
-
 
   public Map<Enum<Resources>, Integer> getCost(Enum<BuildingsType> type) {
     Enum<Resources> power = Resources.POWER;
