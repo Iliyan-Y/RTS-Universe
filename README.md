@@ -17,7 +17,7 @@ Java, Spring boot, Babylonjs, React, Postgresql
 - To construct buildings different time and resources are required. - backend: :white_check_mark: frontend: :black_square_button:
 - Buildings have different abilities/production - backend: :white_check_mark: frontend: :black_square_button:
 - Buildings are upgradable - backend: :white_check_mark: frontend: :black_square_button:
-- Buildings rewards are different in each update
+- For each building upgrade, player get rewards - backend: :white_check_mark: frontend: :black_square_button:
 - Player can create at least 3 type of units
 - Units have different abilities/use cases
 - Players can earn experience.
