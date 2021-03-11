@@ -42,6 +42,7 @@ public class Base {
   private int level = 1;
   private boolean upgrading = false;
   private LocalDateTime completeTime;
+  public String info = "Upgrading the base will increase the power production";
 
   public Base() {
   }
@@ -170,10 +171,10 @@ public class Base {
     if (this.upgrading) {
       throw new IllegalStateException("Base " + this.name + " is upgrading");
     }
-    checkResource(upgradeCost);
-    updateResourceAfterBuild(upgradeCost);
+    checkResource(upgradeCost());
+    updateResourceAfterBuild(upgradeCost());
     this.setUpgrading(true);
-    this.setCompleteTime(upgradeCost.get(Resources.TIME));
+    this.setCompleteTime(upgradeCost().get(Resources.TIME));
   }
 
   private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
@@ -205,11 +206,13 @@ public class Base {
   }
 
 
-  private Map<Enum<Resources>, Integer> upgradeCost = Map.of(
-      Resources.STARDUST, 2 + this.level,
-      Resources.POWER, 2 + this.level,
-      Resources.POPULATION, 2 + this.level,
-      Resources.TIME, 2 + this.level);
+  private Map<Enum<Resources>, Integer> upgradeCost() {
+    return Map.of(
+        Resources.STARDUST, 2 + this.level,
+        Resources.POWER, 2 + this.level,
+        Resources.POPULATION, 2 + this.level,
+        Resources.TIME, 2 + this.level);
+  }
 
 
 }

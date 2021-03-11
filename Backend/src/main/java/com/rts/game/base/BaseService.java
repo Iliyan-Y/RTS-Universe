@@ -111,6 +111,7 @@ public class BaseService {
 
     base.setUpgrading(false);
     base.setLevel(base.getLevel() + 1);
+    base.setPowerPerTime(base.getPowerPerTime() + base.getLevel() - 1);
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
