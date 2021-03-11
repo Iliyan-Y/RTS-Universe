@@ -5,6 +5,7 @@ import com.rts.game.buildings.BuildingsType;
 import com.rts.game.player.Player;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -28,7 +29,7 @@ public class Base {
   @OneToOne(mappedBy = "base")
   private Player player;
 
-  @OneToMany( cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL)
   private Set<Building> buildings;
 
   private String name;
@@ -38,17 +39,43 @@ public class Base {
   private int stardust = 10;
   private int powerPerTime = 1;
   private int stardustPerTime = 1;
+  private int level = 1;
+  private boolean upgrading = false;
+  private LocalDateTime completeTime;
 
   public Base() {
   }
 
-  public Base(Long id, String name) {
-    this.id = id;
+  public Base(String name) {
     this.name = name;
   }
 
   public Long getId() {
     return id;
+  }
+
+  public int getLevel() {
+    return level;
+  }
+
+  public void setLevel(int level) {
+    this.level = level;
+  }
+
+  public boolean isUpgrading() {
+    return upgrading;
+  }
+
+  public void setUpgrading(boolean upgrading) {
+    this.upgrading = upgrading;
+  }
+
+  public LocalDateTime getCompleteTime() {
+    return completeTime;
+  }
+
+  public void setCompleteTime(int minutes) {
+    this.completeTime = LocalDateTime.now().plusMinutes(minutes);
   }
 
   public String getName() {
@@ -117,7 +144,7 @@ public class Base {
   }
 
   public void construct(Building building) {
-    if(checkForBuilding(building.getType())) {
+    if (checkForBuilding(building.getType())) {
       throw new IllegalStateException(building.getType() + " is already build");
     }
     checkResource(building.getCost(building.getType()));
@@ -126,11 +153,11 @@ public class Base {
     this.getBuildings().add(building);
   }
 
-  public void upgradeBuilding(Building building){
-    if(!building.isBuild()) {
+  public void upgradeBuilding(Building building) {
+    if (!building.isBuild()) {
       throw new IllegalStateException(building.getType() + " isn't build yet");
     }
-    if(building.isUpgrade()) {
+    if (building.isUpgrade()) {
       throw new IllegalStateException(building.getType() + " is upgrading");
     }
     checkResource(building.getCost(building.getType()));
@@ -139,6 +166,15 @@ public class Base {
     building.setUpgrade(true);
   }
 
+  public void upgrade() {
+    if (this.upgrading) {
+      throw new IllegalStateException("Base " + this.name + " is upgrading");
+    }
+    checkResource(upgradeCost);
+    updateResourceAfterBuild(upgradeCost);
+    this.setUpgrading(true);
+    this.setCompleteTime(upgradeCost.get(Resources.TIME));
+  }
 
   private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
     if (this.getBuildings().isEmpty()) {
@@ -153,11 +189,13 @@ public class Base {
     if (this.getCapacity() - this.getPopulation() < cost.get(Resources.POPULATION)) {
       throw new IllegalStateException("Not enough capacity");
     }
-    if (cost.get(Resources.POWER) > this.getPower() ) {
+    if (cost.get(Resources.POWER) > this.getPower()) {
       throw new IllegalStateException("Not enough power");
     }
-    if (cost.get(Resources.STARDUST) > this.getStardust()){ throw new IllegalStateException(
-        "Not enough stardust");}
+    if (cost.get(Resources.STARDUST) > this.getStardust()) {
+      throw new IllegalStateException(
+          "Not enough stardust");
+    }
   }
 
   private void updateResourceAfterBuild(Map<Enum<Resources>, Integer> cost) {
@@ -165,5 +203,13 @@ public class Base {
     this.setStardust(this.getStardust() - cost.get(Resources.STARDUST));
     this.setPopulation(this.getPopulation() + cost.get(Resources.POPULATION));
   }
+
+
+  private Map<Enum<Resources>, Integer> upgradeCost = Map.of(
+      Resources.STARDUST, 2 + this.level,
+      Resources.POWER, 2 + this.level,
+      Resources.POPULATION, 2 + this.level,
+      Resources.TIME, 2 + this.level);
+
 
 }

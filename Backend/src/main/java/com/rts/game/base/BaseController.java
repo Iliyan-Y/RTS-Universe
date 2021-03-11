@@ -69,4 +69,14 @@ public class BaseController {
     baseService.finishPitUpgrade(params.get("baseId"), params.get("buildingId"));
   }
 
+  @GetMapping(path = "{baseId}/upgrade")
+  public void upgradeBase(@PathVariable("baseId") Long baseId) {
+      baseService.upgrade(baseId);
+  }
+
+  @GetMapping(path = "{baseId}/completeUpgrade")
+  public void completeUpgrade(@PathVariable("baseId") Long baseId) {
+    baseService.completeUpgrade(baseId);
+  }
+
 }

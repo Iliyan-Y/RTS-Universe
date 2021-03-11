@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -90,6 +91,26 @@ public class BaseService {
     StardustPit stardustPit = (StardustPit) buildingService.completeUpgrade(buildingId);
     Base base = getBaseById(baseId);
     base.setStardustPerTime(base.getStardustPerTime() + stardustPit.getProductionPerTime());
+  }
+
+  @Transactional
+  public void upgrade(Long baseId) {
+    Base base = getBaseById(baseId);
+    base.upgrade();
+  }
+
+  @Transactional
+  public void completeUpgrade(Long baseId) {
+    Base base = getBaseById(baseId);
+    if (base.getCompleteTime().isAfter(LocalDateTime.now())) {
+      throw new IllegalStateException("More time required");
+    }
+    if (!base.isUpgrading()) {
+      throw new IllegalStateException("Base isn't upgrading");
+    }
+
+    base.setUpgrading(false);
+    base.setLevel(base.getLevel() + 1);
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
