@@ -76,9 +76,8 @@ public class BaseService {
   public void finishHotelUpgrade(Long baseId, Long buildingId) {
     SpaceHotel spaceHotel = (SpaceHotel) buildingService.completeUpgrade(buildingId);
     Base base = getBaseById(baseId);
-    System.out.println("Current " + base.getCapacity());
+    spaceHotel.setCapacity(spaceHotel.getCapacity() + spaceHotel.getLevel());
     base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
-    System.out.println("Updated " + base.getCapacity());
   }
 
   @Transactional
@@ -111,7 +110,7 @@ public class BaseService {
 
     base.setUpgrading(false);
     base.setLevel(base.getLevel() + 1);
-    base.setPowerPerTime(base.getPowerPerTime() + base.getLevel() - 1);
+    base.setPowerPerTime(base.getPowerPerTime() + 1);
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
