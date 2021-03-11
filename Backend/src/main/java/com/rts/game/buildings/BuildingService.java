@@ -35,4 +35,19 @@ public class BuildingService {
     building.setLevel(building.getLevel() + 1);
   }
 
+  @Transactional
+  public Building completeUpgrade(Long buildingId) {
+    Building building = getBuildingById(buildingId);
+
+    if (building.getCompleteTime().isAfter(LocalDateTime.now())) {
+      throw new IllegalStateException("More time required");
+    }
+    if (!building.isUpgrade()) {
+      throw new IllegalStateException("Build isn't upgrading");
+    }
+    building.setUpgrade(false);
+    building.setLevel(building.getLevel() + 1);
+    return building;
+  }
+
 }

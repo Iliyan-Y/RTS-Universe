@@ -86,16 +86,26 @@ public class Building {
     Enum<Resources> stardust = Resources.STARDUST;
     Enum<Resources> population = Resources.POPULATION;
     Enum<Resources> time = Resources.TIME;
+    int level = this.level;
 
     if (BuildingsType.DOCKYARD.equals(type)) {
-      return Map.of(stardust, 2 + this.getLevel(), power, 1,
-          population, 1, time, 1 + this.getLevel());
+      return Map.of(
+          stardust, 2 + level,
+          power, 1 + level,
+          population, 1 + level,
+          time, 1 + level);
     } else if (BuildingsType.SPACE_HOTEL.equals(type)) {
-      return Map.of(stardust, 1, power, 2 + this.getLevel(), population
-          , 0, time, 1 + this.getLevel());
+      return Map.of(
+          stardust, 1 + level,
+          power, 2 + level,
+          population, 0,
+          time, 1 + level);
     } else if (BuildingsType.STARDUST_PIT.equals(type)) {
-      return Map.of(stardust, 1, power, 2 + this.getLevel(), population
-          , 2 + this.getLevel(), time, 1 + this.getLevel());
+      return Map.of(
+          stardust, 1 + level,
+          power, 2 + level,
+          population, 2 + level,
+          time, 1 + level);
     }
     throw new IllegalStateException("Please specify building type");
   }

@@ -71,6 +71,27 @@ public class BaseService {
     base.upgradeBuilding(building);
   }
 
+  @Transactional
+  public void finishHotelUpgrade(Long baseId, Long buildingId) {
+    SpaceHotel spaceHotel = (SpaceHotel) buildingService.completeUpgrade(buildingId);
+    Base base = getBaseById(baseId);
+    System.out.println("Current " + base.getCapacity());
+    base.setCapacity(base.getCapacity() + spaceHotel.getCapacity());
+    System.out.println("Updated " + base.getCapacity());
+  }
+
+  @Transactional
+  public void finishDockyardUpgrade(Long buildingId) {
+    buildingService.completeUpgrade(buildingId);
+  }
+
+  @Transactional
+  public void finishPitUpgrade(Long baseId, Long buildingId) {
+    StardustPit stardustPit = (StardustPit) buildingService.completeUpgrade(buildingId);
+    Base base = getBaseById(baseId);
+    base.setStardustPerTime(base.getStardustPerTime() + stardustPit.getProductionPerTime());
+  }
+
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
   @Transactional
   public void timeResourceUpdate() {

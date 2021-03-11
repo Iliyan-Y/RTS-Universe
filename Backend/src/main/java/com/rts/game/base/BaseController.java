@@ -54,4 +54,19 @@ public class BaseController {
     baseService.upgradeBuilding(params.get("baseId"), params.get("buildingId"));
   }
 
+  @PostMapping(path = "finishHotelUpgrade")
+  public void finishHotelUpgrade(@RequestBody Map<String, Long > params) {
+    baseService.finishHotelUpgrade(params.get("baseId"), params.get("buildingId"));
+  }
+
+  @PostMapping(path = "finishDockyardUpgrade")
+  public void finishDockyardUpgrade(@RequestBody Map<String, Long > params) {
+    baseService.finishDockyardUpgrade( params.get("buildingId"));
+  }
+
+  @PostMapping(path = "finishPitUpgrade")
+  public void finishPitUpgrade(@RequestBody Map<String, Long > params) {
+    baseService.finishPitUpgrade(params.get("baseId"), params.get("buildingId"));
+  }
+
 }

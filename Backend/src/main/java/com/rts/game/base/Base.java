@@ -139,6 +139,7 @@ public class Base {
     building.setUpgrade(true);
   }
 
+
   private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
     if (this.getBuildings().isEmpty()) {
       return false;
