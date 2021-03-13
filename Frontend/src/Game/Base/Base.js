@@ -4,8 +4,6 @@ import {
   Tools,
   Vector3,
   HemisphericLight,
-  MeshBuilder,
-  PointerEventTypes,
 } from '@babylonjs/core';
 import SceneComponent from 'babylonjs-hook';
 import '@babylonjs/loaders';
@@ -15,6 +13,7 @@ import { createDockyard } from './dockyard';
 import { createHotel } from './hotel';
 import { createStardustPit } from './stardustPit';
 import { selectElement } from '../helpers';
+import { createSkyBox } from './skyBox';
 
 const Base = () => {
   function setCamera(scene) {
@@ -37,11 +36,12 @@ const Base = () => {
   const onSceneReady = async (scene) => {
     setCamera(scene);
     var light = new HemisphericLight('light', new Vector3(0, 5, 0), scene);
-    light.intensity = 0.7;
+    //light.intensity = 0.7;
     await createBaseBuilding(scene);
     await createDockyard(scene);
     await createHotel(scene);
     await createStardustPit(scene);
+    await createSkyBox(scene);
 
     //on click select element
     selectElement(scene);
