@@ -13,9 +13,9 @@ import '@babylonjs/loaders';
 import { createBaseBuilding } from './baseBuilding';
 import { createDockyard } from './dockyard';
 import { createHotel } from './hotel';
+import { createStardustPit } from './stardustPit';
 
 const Base = () => {
-  let stardustPit;
   let selected = null;
 
   function setCamera(scene) {
@@ -42,9 +42,7 @@ const Base = () => {
     await createBaseBuilding(scene);
     await createDockyard(scene);
     await createHotel(scene);
-
-    stardustPit = MeshBuilder.CreateTorus('stardustPit', { size: 1.5 }, scene);
-    stardustPit.position = new Vector3(-2, 0, -5);
+    await createStardustPit(scene);
 
     //on click select element
     selectElement(scene);

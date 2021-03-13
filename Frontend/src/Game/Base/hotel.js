@@ -26,8 +26,8 @@ export async function createHotel(scene) {
       hotel = mergeImportedMesh(newMeshes);
       hotel.name = 'hotel';
       hotel.material = hotelMaterial;
-      hotel.scaling = new Vector3(0.03, 0.03, 0.03);
-      hotel.position = new Vector3(10, 3, -4);
+      hotel.scaling = new Vector3(0.03, 0.03, 0.04);
+      hotel.position = new Vector3(10, 3, -2);
       hotel.actionManager = new ActionManager(scene);
       hotel.actionManager.registerAction(
         new ExecuteCodeAction(
