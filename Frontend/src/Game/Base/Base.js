@@ -5,24 +5,18 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
-  ActionManager,
-  ExecuteCodeAction,
-  SceneLoader,
-  Color3,
-  StandardMaterial,
   PointerEventTypes,
-  Texture,
-  Mesh,
 } from '@babylonjs/core';
 import SceneComponent from 'babylonjs-hook';
 import '@babylonjs/loaders';
 
+import { createBaseBuilding } from './baseBuilding';
+import { createDockyard } from './dockyard';
+import { createHotel } from './hotel';
+
 const Base = () => {
-  let dockyard;
-  let spaceHotel;
   let stardustPit;
   let selected = null;
-  let base;
 
   function setCamera(scene) {
     var camera = new ArcRotateCamera(
@@ -41,25 +35,16 @@ const Base = () => {
     camera.attachControl(canvas, true);
   }
 
-  const onSceneReady = (scene) => {
+  const onSceneReady = async (scene) => {
     setCamera(scene);
     var light = new HemisphericLight('light', new Vector3(0, 5, 0), scene);
     light.intensity = 0.7;
-    createBase(scene);
-
-    dockyard = MeshBuilder.CreateBox('dockyard', { size: 2 }, scene);
-    dockyard.material = new StandardMaterial('box_mat', scene);
-
-    spaceHotel = MeshBuilder.CreateCylinder('spaceHotel', { size: 1.4 }, scene);
-    spaceHotel.scaling.y = 2;
+    await createBaseBuilding(scene);
+    await createDockyard(scene);
+    await createHotel(scene);
 
     stardustPit = MeshBuilder.CreateTorus('stardustPit', { size: 1.5 }, scene);
-
-    dockyard.position = new Vector3(-6, 0, 1);
-    spaceHotel.position = new Vector3(5, 0, 2);
     stardustPit.position = new Vector3(-2, 0, -5);
-
-    hotelAction(scene);
 
     //on click select element
     selectElement(scene);
@@ -83,51 +68,6 @@ const Base = () => {
         console.log(selected.name);
       }
     }, PointerEventTypes.POINTERDOWN);
-  }
-
-  function createBase(scene) {
-    let baseMaterial = new StandardMaterial('baseMaterial', scene);
-    baseMaterial.diffuseTexture = new Texture(
-      '/assets/Buildings/textures/Hull.jpg'
-    );
-
-    //baseMaterial.diffuseColor = new Color3(0.6, 0.7, 0.7);
-    SceneLoader.ImportMesh(
-      '',
-      '/assets/Buildings/',
-      'base.glb',
-      scene,
-      (newMeshes) => {
-        let noRootMesh = [];
-        newMeshes.forEach((mesh) => {
-          if (mesh.name != '__root__') {
-            noRootMesh.push(mesh);
-          }
-        });
-        base = Mesh.MergeMeshes(noRootMesh);
-        base.name = 'base';
-        base.material = baseMaterial;
-        base.scaling.y = 1.5;
-        base.actionManager = new ActionManager(scene);
-        base.actionManager.registerAction(
-          new ExecuteCodeAction(
-            { trigger: ActionManager.OnPickUpTrigger },
-            function () {
-              alert('Base selected');
-            }
-          )
-        );
-      }
-    );
-  }
-
-  function hotelAction(scene) {
-    spaceHotel.actionManager = new ActionManager(scene);
-    spaceHotel.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickUpTrigger, function () {
-        alert('Space Hotel clicked');
-      })
-    );
   }
 
   /**
