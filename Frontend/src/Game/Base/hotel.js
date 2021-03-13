@@ -22,7 +22,6 @@ export async function createHotel(scene) {
     'hotel.glb',
     scene,
     (newMeshes) => {
-      console.log(newMeshes.length);
       hotel = mergeImportedMesh(newMeshes);
       hotel.name = 'hotel';
       hotel.material = hotelMaterial;

@@ -14,10 +14,9 @@ import { createBaseBuilding } from './baseBuilding';
 import { createDockyard } from './dockyard';
 import { createHotel } from './hotel';
 import { createStardustPit } from './stardustPit';
+import { selectElement } from '../helpers';
 
 const Base = () => {
-  let selected = null;
-
   function setCamera(scene) {
     var camera = new ArcRotateCamera(
       'camera',
@@ -47,26 +46,6 @@ const Base = () => {
     //on click select element
     selectElement(scene);
   };
-
-  function selectElement(scene) {
-    scene.onPointerObservable.add((event) => {
-      if (selected) {
-        // selected.material.diffuseColor = new Color3(0.8, 0.8, 0.8);
-        // selected.visibility = 1;
-        selected = null;
-      }
-      if (
-        event.pickInfo.hit &&
-        event.pickInfo.pickedMesh &&
-        event.event.button === 0
-      ) {
-        selected = event.pickInfo.pickedMesh;
-        // selected.material.diffuseColor = Color3.Green();
-        // selected.visibility = 0.1;
-        console.log(selected.name);
-      }
-    }, PointerEventTypes.POINTERDOWN);
-  }
 
   /**
    * Will run on every frame render.  We are spinning the box on y-axis.
