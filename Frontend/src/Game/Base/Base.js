@@ -22,7 +22,7 @@ const Base = () => {
       Tools.ToRadians(125),
       Tools.ToRadians(60),
       25,
-      new Vector3(0, 3, -5),
+      new Vector3(0, 1, 3),
       scene
     );
     camera.upperBetaLimit = Tools.ToRadians(75);
@@ -35,8 +35,8 @@ const Base = () => {
 
   const onSceneReady = async (scene) => {
     setCamera(scene);
-    var light = new HemisphericLight('light', new Vector3(0, 5, 0), scene);
-    //light.intensity = 0.7;
+    var light = new HemisphericLight('light', new Vector3(30, 9, 0), scene);
+    light.intensity = 0.7;
     await createBaseBuilding(scene);
     await createDockyard(scene);
     await createHotel(scene);
