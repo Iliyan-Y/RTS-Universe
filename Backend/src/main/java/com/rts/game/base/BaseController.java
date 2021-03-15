@@ -1,5 +1,6 @@
 package com.rts.game.base;
 
+import com.rts.game.buildings.SpaceHotel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,8 +31,8 @@ public class BaseController {
   }
 
   @GetMapping(path = "{baseId}/build/hotel")
-  public void buildHotel(@PathVariable("baseId") Long baseId) {
-    baseService.buildHotel(baseId);
+  public SpaceHotel buildHotel(@PathVariable("baseId") Long baseId) {
+    return baseService.buildHotel(baseId);
   }
 
   @PostMapping(path = "complete/hotel")

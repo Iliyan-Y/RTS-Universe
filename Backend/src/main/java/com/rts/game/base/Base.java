@@ -144,7 +144,7 @@ public class Base {
     setStardust(this.stardust + this.stardustPerTime);
   }
 
-  public void construct(Building building) {
+  public Building construct(Building building) {
     if (checkForBuilding(building.getType())) {
       throw new IllegalStateException(building.getType() + " is already build");
     }
@@ -152,6 +152,7 @@ public class Base {
     updateResourceAfterBuild(building.getCost(building.getType()));
     building.setCompleteTime(building.getCost(building.getType()).get(Resources.TIME));
     this.getBuildings().add(building);
+    return building;
   }
 
   public void upgradeBuilding(Building building) {

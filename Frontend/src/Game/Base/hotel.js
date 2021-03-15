@@ -6,6 +6,7 @@ import {
 } from '@babylonjs/core';
 import '@babylonjs/loaders';
 import * as GUI from '@babylonjs/gui';
+import axios from 'axios';
 
 export async function createHotel(
   scene,
@@ -83,24 +84,43 @@ export async function createHotel(
     container.addControl(constructBtn);
 
     constructBtn.onPointerClickObservable.add(function () {
-      console.log(hotelData);
       if (!hotelData.build) {
-        let updateState = hotelData;
-        updateState.build = true;
-        setHotelData(updateState);
-
-        constructBtn.textBlock.text = 'Upgrade';
-        scene.meshes.forEach((mesh) => {
-          if (mesh.name === 'hotel') {
-            mesh.visibility = 1;
-          }
-        });
+        axios
+          .get('api/v1/base/1/build/hotel')
+          .then((res) => setHotelData(res.data))
+          .catch((err) => console.error(err.response.data.message));
+        constructBtn.textBlock.text = 'Building';
       }
     });
+
+    var i = 5; // seconds
+
+    var textBlock = new GUI.TextBlock('text', new String(i));
+
+    container.addControl(textBlock);
+
+    var handle = window.setInterval(() => {
+      i--;
+      textBlock.text = new String(i);
+
+      if (i === 0) {
+        window.clearInterval(handle);
+        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+        constructBtn.textBlock.text = 'TADAA';
+
+        textBlock.dispose();
+      }
+    }, 1000);
 
     return container;
   }
 }
+
+// scene.meshes.forEach((mesh) => {
+//   if (mesh.name === 'hotel') {
+//     mesh.visibility = 1;
+//   }
+// });
 
 // function hotelAction(scene) {
 //   spaceHotel.actionManager = new ActionManager(scene);
