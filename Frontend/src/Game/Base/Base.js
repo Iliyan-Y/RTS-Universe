@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArcRotateCamera,
   Tools,
@@ -17,6 +17,8 @@ import { selectElement } from '../helpers';
 import { createSkyBox } from './skyBox';
 
 const Base = () => {
+  let [hotelState, setHotelState] = useState({ isBuild: false });
+
   function setCamera(scene) {
     var camera = new ArcRotateCamera(
       'camera',
@@ -41,12 +43,12 @@ const Base = () => {
     light.intensity = 0.7;
     await createBaseBuilding(scene, advancedTexture);
     await createDockyard(scene);
-    await createHotel(scene);
+    await createHotel(scene, advancedTexture, hotelState, setHotelState);
     await createStardustPit(scene);
     await createSkyBox(scene);
 
     //on click select element
-    selectElement(scene);
+    //selectElement(scene);
   };
 
   /**

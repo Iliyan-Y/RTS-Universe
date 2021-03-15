@@ -17,6 +17,7 @@ export async function createBaseBuilding(scene, advancedTexture) {
   rect1.cornerRadius = 10;
   rect1.color = 'Orange';
   rect1.thickness = 1;
+  rect1.isVisible = false;
   advancedTexture.addControl(rect1);
 
   let base;

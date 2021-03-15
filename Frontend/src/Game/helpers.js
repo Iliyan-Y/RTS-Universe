@@ -3,7 +3,7 @@ import { Mesh, PointerEventTypes } from '@babylonjs/core';
 export function mergeImportedMesh(newMeshes) {
   let noRootMesh = [];
   newMeshes.forEach((mesh) => {
-    if (mesh.name != '__root__') {
+    if (mesh.name !== '__root__') {
       noRootMesh.push(mesh);
     }
   });
