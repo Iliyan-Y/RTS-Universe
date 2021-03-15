@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArcRotateCamera,
   Tools,
@@ -18,6 +18,20 @@ import { createSkyBox } from './skyBox';
 
 const Base = () => {
   let [hotelState, setHotelState] = useState({ isBuild: false });
+  let [sceneReady, setSceneReady] = useState();
+
+  useEffect(() => {
+    console.log(sceneReady ? findByName(sceneReady, 'hotel') : '');
+    return console.log('Clean');
+  }, [hotelState]);
+
+  let findByName = (scene, name) => {
+    scene.meshes.forEach((mesh) => {
+      if (mesh.name === name) {
+        mesh.visibility = 1;
+      }
+    });
+  };
 
   function setCamera(scene) {
     var camera = new ArcRotateCamera(
@@ -46,7 +60,7 @@ const Base = () => {
     await createHotel(scene, advancedTexture, hotelState, setHotelState);
     await createStardustPit(scene);
     await createSkyBox(scene);
-
+    setSceneReady(scene);
     //on click select element
     //selectElement(scene);
   };
