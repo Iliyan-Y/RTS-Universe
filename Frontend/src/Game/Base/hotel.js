@@ -10,8 +10,8 @@ import * as GUI from '@babylonjs/gui';
 export async function createHotel(
   scene,
   advancedTexture,
-  hotelState,
-  setHotelState
+  hotelData,
+  setHotelData
 ) {
   let guiContainer = createGui();
 
@@ -26,7 +26,7 @@ export async function createHotel(
       newMeshes.forEach((mesh) => {
         mesh.scaling = new Vector3(0.03, 0.03, 0.04);
         mesh.name = 'hotel';
-        mesh.visibility = hotelState.isBuild ? 1 : 0.3;
+        mesh.visibility = hotelData.build ? 1 : 0.3;
         mesh.position = new Vector3(8, 3, -2);
         mesh.actionManager = new ActionManager(scene);
         mesh.actionManager.registerAction(
@@ -72,7 +72,7 @@ export async function createHotel(
 
     var constructBtn = GUI.Button.CreateSimpleButton(
       'Construct',
-      hotelState.isBuild ? 'Upgrade' : 'Build'
+      hotelData.build ? 'Upgrade' : 'Build'
     );
     constructBtn.width = 0.35;
     constructBtn.height = 0.35;
@@ -81,9 +81,14 @@ export async function createHotel(
     constructBtn.cornerRadius = 12;
     constructBtn.thickness = 1.5;
     container.addControl(constructBtn);
+
     constructBtn.onPointerClickObservable.add(function () {
-      if (!hotelState.isBuild) {
-        setHotelState({ isBuild: true });
+      console.log(hotelData);
+      if (!hotelData.build) {
+        let updateState = hotelData;
+        updateState.build = true;
+        setHotelData(updateState);
+
         constructBtn.textBlock.text = 'Upgrade';
         scene.meshes.forEach((mesh) => {
           if (mesh.name === 'hotel') {
