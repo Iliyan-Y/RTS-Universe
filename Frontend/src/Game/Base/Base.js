@@ -7,6 +7,7 @@ import {
 } from '@babylonjs/core';
 import SceneComponent from 'babylonjs-hook';
 import '@babylonjs/loaders';
+import * as GUI from '@babylonjs/gui';
 
 import { createBaseBuilding } from './baseBuilding';
 import { createDockyard } from './dockyard';
@@ -35,9 +36,10 @@ const Base = () => {
 
   const onSceneReady = async (scene) => {
     setCamera(scene);
+    var advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI');
     var light = new HemisphericLight('light', new Vector3(30, 9, 0), scene);
     light.intensity = 0.7;
-    await createBaseBuilding(scene);
+    await createBaseBuilding(scene, advancedTexture);
     await createDockyard(scene);
     await createHotel(scene);
     await createStardustPit(scene);

@@ -26,6 +26,7 @@ export async function createHotel(scene) {
     (newMeshes) => {
       newMeshes.forEach((mesh) => {
         mesh.scaling = new Vector3(0.03, 0.03, 0.04);
+        mesh.name = 'hotel';
         mesh.position = new Vector3(8, 3, -2);
         mesh.actionManager = new ActionManager(scene);
         mesh.actionManager.registerAction(
