@@ -13,7 +13,8 @@ export async function createHotel(
   hotelState,
   setHotelState
 ) {
-  let guiContainer = createGui(advancedTexture, hotelState, setHotelState);
+  let guiContainer = createGui();
+
   SceneLoader.ImportMesh(
     '',
     '/assets/Buildings/',
@@ -40,55 +41,60 @@ export async function createHotel(
       });
     }
   );
-}
 
-function createGui(advancedTexture, hotelState, setHotelState) {
-  var container = new GUI.Rectangle();
-  container.width = 0.2;
-  container.height = 0.1;
-  container.cornerRadius = 10;
-  container.color = 'Orange';
-  container.thickness = 1;
-  container.isVisible = false;
-  advancedTexture.addControl(container);
-
-  var label = new GUI.TextBlock();
-  label.text = 'Space Hotel';
-  label.top = '-35%';
-  container.addControl(label);
-
-  var closeBtn = GUI.Button.CreateSimpleButton('Close', 'X');
-  closeBtn.width = 0.1;
-  closeBtn.height = 0.2;
-  closeBtn.color = 'red';
-  closeBtn.cornerRadius = 5;
-  closeBtn.thickness = 1.5;
-  closeBtn.left = '45%';
-  closeBtn.top = '-38%';
-  container.addControl(closeBtn);
-  closeBtn.onPointerClickObservable.add(function () {
+  function createGui() {
+    var container = new GUI.Rectangle();
+    container.width = 0.2;
+    container.height = 0.1;
+    container.cornerRadius = 10;
+    container.color = 'Orange';
+    container.thickness = 1;
     container.isVisible = false;
-  });
+    advancedTexture.addControl(container);
 
-  var constructBtn = GUI.Button.CreateSimpleButton(
-    'Construct',
-    hotelState.isBuild ? 'Upgrade' : 'Build'
-  );
-  constructBtn.width = 0.35;
-  constructBtn.height = 0.35;
+    var label = new GUI.TextBlock();
+    label.text = 'Space Hotel';
+    label.top = '-35%';
+    container.addControl(label);
 
-  constructBtn.color = 'Orange';
-  constructBtn.cornerRadius = 12;
-  constructBtn.thickness = 1.5;
-  container.addControl(constructBtn);
-  constructBtn.onPointerClickObservable.add(function () {
-    if (!hotelState.isBuild) {
-      setHotelState({ isBuild: true });
-      constructBtn.textBlock.text = 'Upgrade';
-    }
-  });
+    var closeBtn = GUI.Button.CreateSimpleButton('Close', 'X');
+    closeBtn.width = 0.1;
+    closeBtn.height = 0.2;
+    closeBtn.color = 'red';
+    closeBtn.cornerRadius = 5;
+    closeBtn.thickness = 1.5;
+    closeBtn.left = '45%';
+    closeBtn.top = '-38%';
+    container.addControl(closeBtn);
+    closeBtn.onPointerClickObservable.add(function () {
+      container.isVisible = false;
+    });
 
-  return container;
+    var constructBtn = GUI.Button.CreateSimpleButton(
+      'Construct',
+      hotelState.isBuild ? 'Upgrade' : 'Build'
+    );
+    constructBtn.width = 0.35;
+    constructBtn.height = 0.35;
+
+    constructBtn.color = 'Orange';
+    constructBtn.cornerRadius = 12;
+    constructBtn.thickness = 1.5;
+    container.addControl(constructBtn);
+    constructBtn.onPointerClickObservable.add(function () {
+      if (!hotelState.isBuild) {
+        setHotelState({ isBuild: true });
+        constructBtn.textBlock.text = 'Upgrade';
+        scene.meshes.forEach((mesh) => {
+          if (mesh.name === 'hotel') {
+            mesh.visibility = 1;
+          }
+        });
+      }
+    });
+
+    return container;
+  }
 }
 
 // function hotelAction(scene) {
