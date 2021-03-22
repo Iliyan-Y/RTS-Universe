@@ -14,6 +14,7 @@ export async function createHotel(
   hotelData,
   setHotelData
 ) {
+  console.log(hotelData);
   let guiContainer = createGui();
   SceneLoader.ImportMesh(
     '',
@@ -97,7 +98,7 @@ export async function createHotel(
 
     function calcRequiredTime(completeTime) {
       let convertedTime = new Date(completeTime);
-      return Math.round((convertedTime - new Date()) / 1000);
+      return Math.round((convertedTime - new Date()) / 1000) + 1;
     }
 
     function setCountDownTimer(time) {
@@ -112,7 +113,6 @@ export async function createHotel(
 
         if (timeToCount === 0) {
           window.clearInterval(timer);
-          // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
           constructBtn.textBlock.text = 'Upgrade';
           completeTheBuild();
           countDown.dispose();
@@ -129,7 +129,6 @@ export async function createHotel(
         .post('api/v1/base/complete/hotel', body)
         .then((res) => {
           if (res.status === 200) {
-            console.log('Hotel Build');
             changeOpacity();
           }
         })
@@ -137,12 +136,17 @@ export async function createHotel(
     }
 
     function changeOpacity() {
-      console.log('try mesh');
       scene.meshes.forEach((mesh) => {
         if (mesh.name === 'hotel') {
           mesh.visibility = 1;
         }
       });
+    }
+
+    if (new Date(hotelData.completeTime) - new Date() > 0) {
+      setCountDownTimer(calcRequiredTime(hotelData.completeTime));
+    } else {
+      completeTheBuild();
     }
 
     return container;
