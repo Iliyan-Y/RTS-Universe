@@ -15,7 +15,6 @@ export async function createHotel(
   setHotelData
 ) {
   let guiContainer = createGui();
-
   SceneLoader.ImportMesh(
     '',
     '/assets/Buildings/',
@@ -87,30 +86,64 @@ export async function createHotel(
       if (!hotelData.build) {
         axios
           .get('api/v1/base/1/build/hotel')
-          .then((res) => setHotelData(res.data))
+          .then((res) => {
+            setHotelData(res.data);
+            setCountDownTimer(calcRequiredTime(res.data.completeTime));
+          })
           .catch((err) => console.error(err.response.data.message));
         constructBtn.textBlock.text = 'Building';
       }
     });
 
-    var i = 5; // seconds
+    function calcRequiredTime(completeTime) {
+      let convertedTime = new Date(completeTime);
+      return Math.round((convertedTime - new Date()) / 1000);
+    }
 
-    var textBlock = new GUI.TextBlock('text', new String(i));
+    function setCountDownTimer(time) {
+      var timeToCount = time; // seconds
+      var countDown = new GUI.TextBlock('text', new String(timeToCount));
+      countDown.top = '33%';
+      container.addControl(countDown);
 
-    container.addControl(textBlock);
+      var timer = window.setInterval(() => {
+        timeToCount--;
+        countDown.text = new String(timeToCount);
 
-    var handle = window.setInterval(() => {
-      i--;
-      textBlock.text = new String(i);
+        if (timeToCount === 0) {
+          window.clearInterval(timer);
+          // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+          constructBtn.textBlock.text = 'Upgrade';
+          completeTheBuild();
+          countDown.dispose();
+        }
+      }, 1000);
+    }
 
-      if (i === 0) {
-        window.clearInterval(handle);
-        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-        constructBtn.textBlock.text = 'TADAA';
+    function completeTheBuild() {
+      let body = {
+        buildingId: 1,
+        baseId: 1,
+      };
+      axios
+        .post('api/v1/base/complete/hotel', body)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('Hotel Build');
+            changeOpacity();
+          }
+        })
+        .catch((err) => console.error(err.response.data.message));
+    }
 
-        textBlock.dispose();
-      }
-    }, 1000);
+    function changeOpacity() {
+      console.log('try mesh');
+      scene.meshes.forEach((mesh) => {
+        if (mesh.name === 'hotel') {
+          mesh.visibility = 1;
+        }
+      });
+    }
 
     return container;
   }
