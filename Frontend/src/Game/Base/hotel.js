@@ -106,16 +106,19 @@ export async function createHotel(
       buildingId: 1,
       baseId: 1,
     };
-    axios
-      .post('api/v1/base/complete/hotel', body)
-      .then((res) => {
-        if (res.status === 200) {
-          changeBuildingOpacity(scene, 'hotel');
-        }
-      })
-      .catch((err) => console.error(err.response.data.message));
+    if (!hotelData.build) {
+      axios
+        .post('api/v1/base/complete/hotel', body)
+        .then((res) => {
+          if (res.status === 200) {
+            changeBuildingOpacity(scene, 'hotel');
+          }
+        })
+        .catch((err) => console.error(err.response.data.message));
+    }
   }
 
+  // set the initial timer if required
   if (new Date(hotelData.completeTime) - new Date() > 0) {
     setCountDownTimer(
       calcRequiredTime(hotelData.completeTime),
