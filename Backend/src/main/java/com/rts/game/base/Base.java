@@ -155,7 +155,7 @@ public class Base {
     return building;
   }
 
-  public void upgradeBuilding(Building building) {
+  public LocalDateTime upgradeBuilding(Building building) {
     if (!building.isBuild()) {
       throw new IllegalStateException(building.getType() + " isn't build yet");
     }
@@ -165,7 +165,8 @@ public class Base {
     checkResource(building.getCost(building.getType()));
     updateResourceAfterBuild(building.getCost(building.getType()));
     building.setCompleteTime(building.getCost(building.getType()).get(Resources.TIME));
-    building.setUpgrade(true);
+
+    return building.getCompleteTime();
   }
 
   public void upgrade() {

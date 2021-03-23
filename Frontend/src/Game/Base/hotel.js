@@ -72,8 +72,8 @@ export async function createHotel(
     'Construct',
     hotelData.build ? 'Upgrade' : 'Build'
   );
-  constructBtn.width = 0.35;
-  constructBtn.height = 0.35;
+  constructBtn.width = 0.4;
+  constructBtn.height = 0.4;
   constructBtn.color = 'Orange';
   constructBtn.cornerRadius = 12;
   constructBtn.thickness = 1.5;
@@ -88,15 +88,40 @@ export async function createHotel(
           setCountDownTimer(
             calcRequiredTime(res.data.completeTime),
             container,
-            onFinish
+            finishBuild
           );
         })
         .catch((err) => console.error(err.response.data.message));
       constructBtn.textBlock.text = 'Building';
+    } else {
+      console.log('Upgrading !!!');
+      let body = {
+        buildingId: 1,
+        baseId: 1,
+      };
+      axios
+        .post('api/v1/base/upgradeBuilding', body)
+        .then((res) => {
+          constructBtn.textBlock.text = 'Upgrading';
+          let updateData = hotelData;
+          updateData.completeTime = res.data.completeTime;
+          setHotelData(updateData);
+          setCountDownTimer(
+            calcRequiredTime(res.data.completeTime),
+            container,
+            finishUpgrade
+          );
+          console.log(res);
+        }) // set the response to be the complete time
+        .catch((err) => console.error(err.response.data.message));
     }
   });
 
-  function onFinish() {
+  function finishUpgrade() {
+    console.log('add finish Upgrade method');
+  }
+
+  function finishBuild() {
     constructBtn.textBlock.text = 'Upgrade';
     completeTheBuild();
   }
@@ -111,6 +136,9 @@ export async function createHotel(
         .post('api/v1/base/complete/hotel', body)
         .then((res) => {
           if (res.status === 200) {
+            let updateData = hotelData;
+            updateData.build = true;
+            setHotelData(updateData);
             changeBuildingOpacity(scene, 'hotel');
           }
         })
@@ -120,10 +148,13 @@ export async function createHotel(
 
   // set the initial timer if required
   if (new Date(hotelData.completeTime) - new Date() > 0) {
+    // add separate statement for building and upgrading
+    if (constructBtn.textBlock.text === 'Upgrade')
+      constructBtn.textBlock.text = 'Upgrading';
     setCountDownTimer(
       calcRequiredTime(hotelData.completeTime),
       container,
-      onFinish
+      finishBuild
     );
   } else {
     completeTheBuild();

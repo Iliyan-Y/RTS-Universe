@@ -1,8 +1,10 @@
 package com.rts.game.base;
 
 import com.rts.game.buildings.SpaceHotel;
+import org.apache.tomcat.jni.Local;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -51,8 +53,11 @@ public class BaseController {
   }
 
   @PostMapping(path = "upgradeBuilding")
-  public void upgradeBuilding(@RequestBody Map<String, Long > params) {
-    baseService.upgradeBuilding(params.get("baseId"), params.get("buildingId"));
+  public Map<String, LocalDateTime> upgradeBuilding(@RequestBody Map<String, Long > params) {
+   return Map.of( "completeTime", baseService.upgradeBuilding(params.get(
+       "baseId"),
+        params.get(
+       "buildingId")));
   }
 
   @PostMapping(path = "finishHotelUpgrade")

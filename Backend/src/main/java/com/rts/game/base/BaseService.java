@@ -66,10 +66,10 @@ public class BaseService {
   }
 
   @Transactional
-  public void upgradeBuilding(Long baseId, Long buildingId) {
+  public LocalDateTime upgradeBuilding(Long baseId, Long buildingId) {
     Base base = getBaseById(baseId);
     Building building = buildingService.getBuildingById(buildingId);
-    base.upgradeBuilding(building);
+    return base.upgradeBuilding(building);
   }
 
   @Transactional
