@@ -8,13 +8,20 @@ import '@babylonjs/loaders';
 import * as GUI from '@babylonjs/gui';
 import axios from 'axios';
 
+import {
+  createGuiContainer,
+  calcRequiredTime,
+  setCountDownTimer,
+  changeBuildingOpacity,
+} from './GuiElements';
+
 export async function createHotel(
   scene,
   advancedTexture,
   hotelData,
   setHotelData
 ) {
-  let container = createGuiContainer();
+  let container = createGuiContainer(advancedTexture);
   SceneLoader.ImportMesh(
     '',
     '/assets/Buildings/',
@@ -42,18 +49,6 @@ export async function createHotel(
     }
   );
 
-  function createGuiContainer() {
-    var container = new GUI.Rectangle();
-    container.width = 0.2;
-    container.height = 0.1;
-    container.cornerRadius = 10;
-    container.color = 'Orange';
-    container.thickness = 1;
-    container.isVisible = false;
-    advancedTexture.addControl(container);
-    return container;
-  }
-
   var label = new GUI.TextBlock();
   label.text = 'Space Hotel';
   label.top = '-35%';
@@ -67,6 +62,7 @@ export async function createHotel(
   closeBtn.thickness = 1.5;
   closeBtn.left = '45%';
   closeBtn.top = '-38%';
+
   container.addControl(closeBtn);
   closeBtn.onPointerClickObservable.add(function () {
     container.isVisible = false;
@@ -78,7 +74,6 @@ export async function createHotel(
   );
   constructBtn.width = 0.35;
   constructBtn.height = 0.35;
-
   constructBtn.color = 'Orange';
   constructBtn.cornerRadius = 12;
   constructBtn.thickness = 1.5;
@@ -90,35 +85,20 @@ export async function createHotel(
         .get('api/v1/base/1/build/hotel')
         .then((res) => {
           setHotelData(res.data);
-          setCountDownTimer(calcRequiredTime(res.data.completeTime));
+          setCountDownTimer(
+            calcRequiredTime(res.data.completeTime),
+            container,
+            onFinish
+          );
         })
         .catch((err) => console.error(err.response.data.message));
       constructBtn.textBlock.text = 'Building';
     }
   });
 
-  function calcRequiredTime(completeTime) {
-    let convertedTime = new Date(completeTime);
-    return Math.round((convertedTime - new Date()) / 1000) + 1;
-  }
-
-  function setCountDownTimer(time) {
-    var timeToCount = time; // seconds
-    var countDown = new GUI.TextBlock('text', new String(timeToCount));
-    countDown.top = '33%';
-    container.addControl(countDown);
-
-    var timer = window.setInterval(() => {
-      timeToCount--;
-      countDown.text = new String(timeToCount);
-
-      if (timeToCount === 0) {
-        window.clearInterval(timer);
-        constructBtn.textBlock.text = 'Upgrade';
-        completeTheBuild();
-        countDown.dispose();
-      }
-    }, 1000);
+  function onFinish() {
+    constructBtn.textBlock.text = 'Upgrade';
+    completeTheBuild();
   }
 
   function completeTheBuild() {
@@ -130,38 +110,19 @@ export async function createHotel(
       .post('api/v1/base/complete/hotel', body)
       .then((res) => {
         if (res.status === 200) {
-          changeOpacity();
+          changeBuildingOpacity(scene, 'hotel');
         }
       })
       .catch((err) => console.error(err.response.data.message));
   }
 
-  function changeOpacity() {
-    scene.meshes.forEach((mesh) => {
-      if (mesh.name === 'hotel') {
-        mesh.visibility = 1;
-      }
-    });
-  }
-
   if (new Date(hotelData.completeTime) - new Date() > 0) {
-    setCountDownTimer(calcRequiredTime(hotelData.completeTime));
+    setCountDownTimer(
+      calcRequiredTime(hotelData.completeTime),
+      container,
+      onFinish
+    );
   } else {
     completeTheBuild();
   }
 }
-
-// scene.meshes.forEach((mesh) => {
-//   if (mesh.name === 'hotel') {
-//     mesh.visibility = 1;
-//   }
-// });
-
-// function hotelAction(scene) {
-//   spaceHotel.actionManager = new ActionManager(scene);
-//   spaceHotel.actionManager.registerAction(
-//     new ExecuteCodeAction(ActionManager.OnPickUpTrigger, function () {
-//       alert('Space Hotel clicked');
-//     })
-//   );
-// }
