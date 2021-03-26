@@ -76,12 +76,19 @@ const Base = () => {
 
   const onSceneReady = async (scene) => {
     setCamera(scene);
+    if (!baseData) return;
     var advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI');
     var light = new HemisphericLight('light', new Vector3(30, 9, 0), scene);
     light.intensity = 0.7;
     await createBaseBuilding(scene, advancedTexture);
     await createDockyard(scene);
-    await createHotel(scene, advancedTexture, hotelData, setHotelData);
+    await createHotel(
+      scene,
+      advancedTexture,
+      hotelData,
+      setHotelData,
+      baseData.id
+    );
     await createStardustPit(scene);
     await createSkyBox(scene);
     //setSceneReady(scene);

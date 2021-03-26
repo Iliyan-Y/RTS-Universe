@@ -19,7 +19,8 @@ export async function createHotel(
   scene,
   advancedTexture,
   hotelData,
-  setHotelData
+  setHotelData,
+  baseId
 ) {
   let container = createGuiContainer(advancedTexture);
   SceneLoader.ImportMesh(
@@ -85,11 +86,12 @@ export async function createHotel(
     hotelData.build ? startUpgrade() : startBuild();
   });
 
+  let body = {
+    buildingId: hotelData.id,
+    baseId,
+  };
+
   function startUpgrade() {
-    let body = {
-      buildingId: 1,
-      baseId: 1,
-    };
     axios
       .post('api/v1/base/upgradeBuilding', body)
       .then((res) => {
@@ -108,10 +110,6 @@ export async function createHotel(
 
   function finishUpgrade() {
     if (!hotelData.upgrade) return;
-    let body = {
-      buildingId: 1,
-      baseId: 1,
-    };
     axios
       .post('api/v1/base/finishHotelUpgrade', body)
       .then(() => {
@@ -122,7 +120,7 @@ export async function createHotel(
 
   function startBuild() {
     axios
-      .get('api/v1/base/1/build/hotel')
+      .get(`api/v1/base/${baseId}/build/hotel`)
       .then((res) => {
         setHotelData(res.data);
         setCountDownTimer(
@@ -137,10 +135,7 @@ export async function createHotel(
 
   function finishBuild() {
     if (hotelData.build) return;
-    let body = {
-      buildingId: 1,
-      baseId: 1,
-    };
+
     axios
       .post('api/v1/base/complete/hotel', body)
       .then((res) => {
