@@ -165,6 +165,7 @@ public class Base {
     checkResource(building.getCost(building.getType()));
     updateResourceAfterBuild(building.getCost(building.getType()));
     building.setCompleteTime(building.getCost(building.getType()).get(Resources.TIME));
+    building.setUpgrade(true);
 
     return building.getCompleteTime();
   }

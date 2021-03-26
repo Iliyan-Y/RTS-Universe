@@ -49,6 +49,7 @@ export async function createHotel(
     }
   );
 
+  // ---- Gui Elements Section ----
   var label = new GUI.TextBlock();
   label.text = 'Space Hotel';
   label.top = '-35%';
@@ -79,6 +80,7 @@ export async function createHotel(
   constructBtn.thickness = 1.5;
   container.addControl(constructBtn);
 
+  // --- functional section ---
   constructBtn.onPointerClickObservable.add(function () {
     if (!hotelData.build) {
       axios
@@ -94,7 +96,6 @@ export async function createHotel(
         .catch((err) => console.error(err.response.data.message));
       constructBtn.textBlock.text = 'Building';
     } else {
-      console.log('Upgrading !!!');
       let body = {
         buildingId: 1,
         baseId: 1,
@@ -111,14 +112,23 @@ export async function createHotel(
             container,
             finishUpgrade
           );
-          console.log(res);
         }) // set the response to be the complete time
         .catch((err) => console.error(err.response.data.message));
     }
   });
 
   function finishUpgrade() {
-    console.log('add finish Upgrade method');
+    if (!hotelData.upgrade) return;
+    let body = {
+      buildingId: 1,
+      baseId: 1,
+    };
+    axios
+      .post('api/v1/base/finishHotelUpgrade', body)
+      .then(() => {
+        constructBtn.textBlock.text = 'Upgrade';
+      })
+      .catch((err) => console.error(err.response.data.message));
   }
 
   function finishBuild() {
@@ -127,36 +137,33 @@ export async function createHotel(
   }
 
   function completeTheBuild() {
+    if (hotelData.build) return;
     let body = {
       buildingId: 1,
       baseId: 1,
     };
-    if (!hotelData.build) {
-      axios
-        .post('api/v1/base/complete/hotel', body)
-        .then((res) => {
-          if (res.status === 200) {
-            let updateData = hotelData;
-            updateData.build = true;
-            setHotelData(updateData);
-            changeBuildingOpacity(scene, 'hotel');
-          }
-        })
-        .catch((err) => console.error(err.response.data.message));
-    }
+    axios
+      .post('api/v1/base/complete/hotel', body)
+      .then((res) => {
+        if (res.status === 200) {
+          let updateData = hotelData;
+          updateData.build = true;
+          setHotelData(updateData);
+          changeBuildingOpacity(scene, 'hotel');
+        }
+      })
+      .catch((err) => console.error(err.response.data.message));
   }
 
   // set the initial timer if required
   if (new Date(hotelData.completeTime) - new Date() > 0) {
-    // add separate statement for building and upgrading
-    if (constructBtn.textBlock.text === 'Upgrade')
-      constructBtn.textBlock.text = 'Upgrading';
+    if (hotelData.upgrade) constructBtn.textBlock.text = 'Upgrading';
     setCountDownTimer(
       calcRequiredTime(hotelData.completeTime),
       container,
-      finishBuild
+      hotelData.upgrade ? finishUpgrade : finishBuild
     );
   } else {
-    completeTheBuild();
+    hotelData.upgrade ? finishUpgrade() : completeTheBuild();
   }
 }
