@@ -86,14 +86,14 @@ export async function createHotel(
     hotelData.build ? startUpgrade() : startBuild();
   });
 
-  let body = {
+  let postBody = {
     buildingId: hotelData.id,
     baseId,
   };
 
   function startUpgrade() {
     axios
-      .post('api/v1/base/upgradeBuilding', body)
+      .post('api/v1/base/upgradeBuilding', postBody)
       .then((res) => {
         constructBtn.textBlock.text = 'Upgrading';
         let updateData = hotelData;
@@ -111,7 +111,7 @@ export async function createHotel(
   function finishUpgrade() {
     if (!hotelData.upgrade) return;
     axios
-      .post('api/v1/base/finishHotelUpgrade', body)
+      .post('api/v1/base/finishHotelUpgrade', postBody)
       .then(() => {
         constructBtn.textBlock.text = 'Upgrade';
       })
@@ -123,6 +123,7 @@ export async function createHotel(
       .get(`api/v1/base/${baseId}/build/hotel`)
       .then((res) => {
         setHotelData(res.data);
+        postBody.buildingId = res.data.id;
         setCountDownTimer(
           calcRequiredTime(res.data.completeTime),
           container,
@@ -137,17 +138,17 @@ export async function createHotel(
     if (hotelData.build) return;
 
     axios
-      .post('api/v1/base/complete/hotel', body)
+      .post('api/v1/base/complete/hotel', postBody)
       .then((res) => {
         if (res.status === 200) {
           let updateData = hotelData;
           updateData.build = true;
           setHotelData(updateData);
           changeBuildingOpacity(scene, 'SPACE_HOTEL');
+          constructBtn.textBlock.text = 'Upgrade';
         }
       })
       .catch((err) => console.error(err.response.data.message));
-    constructBtn.textBlock.text = 'Upgrade';
   }
 
   // On load set the initial timer if required
