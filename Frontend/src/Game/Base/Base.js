@@ -102,7 +102,7 @@ const Base = () => {
 
   return (
     <div>
-      <button onClick={() => console.log(hotelData)}>Debug</button>
+      <button onClick={() => console.log(baseData)}>Debug</button>
       <SceneComponent
         antialias
         reload={reload}

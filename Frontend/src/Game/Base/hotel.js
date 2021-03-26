@@ -32,7 +32,7 @@ export async function createHotel(
       container.linkOffsetY = -90;
       newMeshes.forEach((mesh) => {
         mesh.scaling = new Vector3(0.03, 0.03, 0.04);
-        mesh.name = 'hotel';
+        mesh.name = 'SPACE_HOTEL';
         mesh.visibility = hotelData.build ? 1 : 0.3;
         mesh.position = new Vector3(8, 3, -2);
         mesh.actionManager = new ActionManager(scene);
@@ -82,40 +82,29 @@ export async function createHotel(
 
   // --- functional section ---
   constructBtn.onPointerClickObservable.add(function () {
-    if (!hotelData.build) {
-      axios
-        .get('api/v1/base/1/build/hotel')
-        .then((res) => {
-          setHotelData(res.data);
-          setCountDownTimer(
-            calcRequiredTime(res.data.completeTime),
-            container,
-            finishBuild
-          );
-        })
-        .catch((err) => console.error(err.response.data.message));
-      constructBtn.textBlock.text = 'Building';
-    } else {
-      let body = {
-        buildingId: 1,
-        baseId: 1,
-      };
-      axios
-        .post('api/v1/base/upgradeBuilding', body)
-        .then((res) => {
-          constructBtn.textBlock.text = 'Upgrading';
-          let updateData = hotelData;
-          updateData.completeTime = res.data.completeTime;
-          setHotelData(updateData);
-          setCountDownTimer(
-            calcRequiredTime(res.data.completeTime),
-            container,
-            finishUpgrade
-          );
-        }) // set the response to be the complete time
-        .catch((err) => console.error(err.response.data.message));
-    }
+    hotelData.build ? startUpgrade() : startBuild();
   });
+
+  function startUpgrade() {
+    let body = {
+      buildingId: 1,
+      baseId: 1,
+    };
+    axios
+      .post('api/v1/base/upgradeBuilding', body)
+      .then((res) => {
+        constructBtn.textBlock.text = 'Upgrading';
+        let updateData = hotelData;
+        updateData.completeTime = res.data.completeTime;
+        setHotelData(updateData);
+        setCountDownTimer(
+          calcRequiredTime(res.data.completeTime),
+          container,
+          finishUpgrade
+        );
+      })
+      .catch((err) => console.error(err.response.data.message));
+  }
 
   function finishUpgrade() {
     if (!hotelData.upgrade) return;
@@ -131,12 +120,22 @@ export async function createHotel(
       .catch((err) => console.error(err.response.data.message));
   }
 
-  function finishBuild() {
-    constructBtn.textBlock.text = 'Upgrade';
-    completeTheBuild();
+  function startBuild() {
+    axios
+      .get('api/v1/base/1/build/hotel')
+      .then((res) => {
+        setHotelData(res.data);
+        setCountDownTimer(
+          calcRequiredTime(res.data.completeTime),
+          container,
+          finishBuild
+        );
+      })
+      .catch((err) => console.error(err.response.data.message));
+    constructBtn.textBlock.text = 'Building';
   }
 
-  function completeTheBuild() {
+  function finishBuild() {
     if (hotelData.build) return;
     let body = {
       buildingId: 1,
@@ -149,13 +148,14 @@ export async function createHotel(
           let updateData = hotelData;
           updateData.build = true;
           setHotelData(updateData);
-          changeBuildingOpacity(scene, 'hotel');
+          changeBuildingOpacity(scene, 'SPACE_HOTEL');
         }
       })
       .catch((err) => console.error(err.response.data.message));
+    constructBtn.textBlock.text = 'Upgrade';
   }
 
-  // set the initial timer if required
+  // On load set the initial timer if required
   if (new Date(hotelData.completeTime) - new Date() > 0) {
     if (hotelData.upgrade) constructBtn.textBlock.text = 'Upgrading';
     setCountDownTimer(
@@ -164,6 +164,6 @@ export async function createHotel(
       hotelData.upgrade ? finishUpgrade : finishBuild
     );
   } else {
-    hotelData.upgrade ? finishUpgrade() : completeTheBuild();
+    hotelData.upgrade ? finishUpgrade() : finishBuild();
   }
 }
