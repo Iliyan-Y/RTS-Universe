@@ -13,6 +13,7 @@ import {
   calcRequiredTime,
   setCountDownTimer,
   changeBuildingOpacity,
+  resourceLabels,
 } from './GuiElements';
 
 export async function createHotel(
@@ -51,58 +52,14 @@ export async function createHotel(
   );
 
   // ---- Gui Elements Section ----
-  var label = new GUI.TextBlock();
-  label.text = 'Space Hotel';
-  label.top = '-35%';
-  container.addControl(label);
-
-  let initialCost = [
-    { name: 'Star: ', req: 1 },
-    { name: 'Pow: ', req: 2 },
-    { name: 'Pop: ', req: 0 },
-    { name: 'Time: ', req: 1 },
-  ];
-
-  var timeLabel = new GUI.TextBlock();
-  timeLabel.text = 'Time: 60';
-  timeLabel.top = '-34%';
-  timeLabel.left = '-35%';
-  container.addControl(timeLabel);
-
-  var powerLabel = new GUI.TextBlock();
-  powerLabel.text = 'Pow: 2';
-  powerLabel.top = (-34 + 13).toString() + '%';
-  powerLabel.left = '-35%';
-  container.addControl(powerLabel);
-
-  var starLabel = new GUI.TextBlock();
-  starLabel.text = 'Star: 1';
-  starLabel.top = (-34 + 2 * 13).toString() + '%';
-  starLabel.left = '-35%';
-  container.addControl(starLabel);
-
-  var popLabel = new GUI.TextBlock();
-  popLabel.text = 'Pop: 0';
-  popLabel.top = (-34 + 3 * 13).toString() + '%';
-  popLabel.left = '-35%';
-  container.addControl(popLabel);
-
-  // function displayCost(resources) {
-  //   resources.forEach((resource, index) => {});
-  // }
-  var closeBtn = GUI.Button.CreateSimpleButton('Close', 'X');
-  closeBtn.width = 0.1;
-  closeBtn.height = 0.2;
-  closeBtn.color = 'red';
-  closeBtn.cornerRadius = 5;
-  closeBtn.thickness = 1.5;
-  closeBtn.left = '45%';
-  closeBtn.top = '-38%';
-
-  container.addControl(closeBtn);
-  closeBtn.onPointerClickObservable.add(function () {
-    container.isVisible = false;
-  });
+  let [timeLabel, powerLabel, starLabel, popLabel] = resourceLabels(
+    container,
+    'Space Hotel',
+    60,
+    2,
+    1,
+    0
+  );
 
   var constructBtn = GUI.Button.CreateSimpleButton(
     'Construct',
