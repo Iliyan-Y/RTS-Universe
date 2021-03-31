@@ -45,7 +45,7 @@ public class BuildingService {
       throw new IllegalStateException("More time required");
     }
     if (!building.isUpgrade()) {
-      throw new IllegalStateException("Build isn't upgrading");
+      throw new IllegalStateException("Building isn't upgrading");
     }
     building.setUpgrade(false);
     building.setLevel(building.getLevel() + 1);

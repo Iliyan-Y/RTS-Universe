@@ -89,6 +89,7 @@ export async function createHotel(
         constructBtn.textBlock.text = 'Upgrading';
         let updateData = hotelData;
         updateData.completeTime = res.data.completeTime;
+        updateData.upgrade = true;
         setHotelData(updateData);
         setCountDownTimer(
           calcRequiredTime(res.data.completeTime),
@@ -104,10 +105,13 @@ export async function createHotel(
     axios
       .post('api/v1/base/finishHotelUpgrade', postBody)
       .then(() => {
+        let newData = hotelData;
+        newData.upgrade = false;
+        setHotelData(newData);
         constructBtn.textBlock.text = 'Upgrade';
       })
+      .then(() => updateResources())
       .catch((err) => console.error(err.response.data.message));
-    updateResources();
   }
 
   function startBuild() {
@@ -140,15 +144,15 @@ export async function createHotel(
           constructBtn.textBlock.text = 'Upgrade';
         }
       })
+      .then(() => updateResources())
       .catch((err) => console.error(err.response.data.message));
-    updateResources();
   }
 
   function updateResources() {
     axios
-      .get('api/v1/buildings/getCost/' + hotelData.id)
+      .get('api/v1/buildings/getCost/' + postBody.buildingId)
       .then((res) => {
-        timeLabel.text = timeLabel.text.slice(0, -2) + res.data.TIME * 60;
+        timeLabel.text = 'Time: ' + res.data.TIME * 60;
         powerLabel.text = powerLabel.text.slice(0, -1) + res.data.POWER;
         starLabel.text = starLabel.text.slice(0, -1) + res.data.STARDUST;
         popLabel.text = popLabel.text.slice(0, -1) + res.data.POPULATION;
@@ -168,8 +172,6 @@ export async function createHotel(
     hotelData.upgrade ? finishUpgrade() : finishBuild();
   }
 
-  // Display required resources
-  if (hotelData.build) {
-    updateResources();
-  }
+  //Display required resources
+  if (hotelData.build) updateResources();
 }
