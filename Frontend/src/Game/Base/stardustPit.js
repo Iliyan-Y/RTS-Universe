@@ -4,7 +4,6 @@ import {
   SceneLoader,
   StandardMaterial,
   Texture,
-  Vector3,
 } from '@babylonjs/core';
 import '@babylonjs/loaders';
 import { mergeImportedMesh } from '../helpers';

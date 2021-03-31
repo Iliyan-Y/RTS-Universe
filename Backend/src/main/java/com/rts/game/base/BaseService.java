@@ -38,9 +38,9 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildHotel(Long baseId) {
+  public SpaceHotel buildHotel(Long baseId) {
     Base base = getBaseById(baseId);
-    base.construct(new SpaceHotel(BuildingsType.SPACE_HOTEL));
+    return (SpaceHotel) base.construct(new SpaceHotel(BuildingsType.SPACE_HOTEL));
   }
 
   @Transactional
@@ -66,10 +66,10 @@ public class BaseService {
   }
 
   @Transactional
-  public void upgradeBuilding(Long baseId, Long buildingId) {
+  public LocalDateTime upgradeBuilding(Long baseId, Long buildingId) {
     Base base = getBaseById(baseId);
     Building building = buildingService.getBuildingById(buildingId);
-    base.upgradeBuilding(building);
+    return base.upgradeBuilding(building);
   }
 
   @Transactional

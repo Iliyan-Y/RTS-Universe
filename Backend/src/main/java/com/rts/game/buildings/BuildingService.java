@@ -1,10 +1,12 @@
 package com.rts.game.buildings;
 
+import com.rts.game.base.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 public class BuildingService {
@@ -43,11 +45,16 @@ public class BuildingService {
       throw new IllegalStateException("More time required");
     }
     if (!building.isUpgrade()) {
-      throw new IllegalStateException("Build isn't upgrading");
+      throw new IllegalStateException("Building isn't upgrading");
     }
     building.setUpgrade(false);
     building.setLevel(building.getLevel() + 1);
     return building;
+  }
+
+  public Map<Enum<Resources>, Integer> getCost(Long buildingId) {
+    Building building = getBuildingById(buildingId);
+   return building.getCost(building.getType());
   }
 
 }
