@@ -56,6 +56,40 @@ export async function createHotel(
   label.top = '-35%';
   container.addControl(label);
 
+  let initialCost = [
+    { name: 'Star: ', req: 1 },
+    { name: 'Pow: ', req: 2 },
+    { name: 'Pop: ', req: 0 },
+    { name: 'Time: ', req: 1 },
+  ];
+
+  var timeLabel = new GUI.TextBlock();
+  timeLabel.text = 'Time: 60';
+  timeLabel.top = '-34%';
+  timeLabel.left = '-35%';
+  container.addControl(timeLabel);
+
+  var powerLabel = new GUI.TextBlock();
+  powerLabel.text = 'Pow: 2';
+  powerLabel.top = (-34 + 13).toString() + '%';
+  powerLabel.left = '-35%';
+  container.addControl(powerLabel);
+
+  var starLabel = new GUI.TextBlock();
+  starLabel.text = 'Star: 1';
+  starLabel.top = (-34 + 2 * 13).toString() + '%';
+  starLabel.left = '-35%';
+  container.addControl(starLabel);
+
+  var popLabel = new GUI.TextBlock();
+  popLabel.text = 'Pop: 0';
+  popLabel.top = (-34 + 3 * 13).toString() + '%';
+  popLabel.left = '-35%';
+  container.addControl(popLabel);
+
+  // function displayCost(resources) {
+  //   resources.forEach((resource, index) => {});
+  // }
   var closeBtn = GUI.Button.CreateSimpleButton('Close', 'X');
   closeBtn.width = 0.1;
   closeBtn.height = 0.2;
@@ -116,6 +150,7 @@ export async function createHotel(
         constructBtn.textBlock.text = 'Upgrade';
       })
       .catch((err) => console.error(err.response.data.message));
+    updateResources();
   }
 
   function startBuild() {
@@ -149,6 +184,19 @@ export async function createHotel(
         }
       })
       .catch((err) => console.error(err.response.data.message));
+    updateResources();
+  }
+
+  function updateResources() {
+    axios
+      .get('api/v1/buildings/getCost/' + hotelData.id)
+      .then((res) => {
+        timeLabel.text = timeLabel.text.slice(0, -2) + res.data.TIME * 60;
+        powerLabel.text = powerLabel.text.slice(0, -1) + res.data.POWER;
+        starLabel.text = starLabel.text.slice(0, -1) + res.data.STARDUST;
+        popLabel.text = popLabel.text.slice(0, -1) + res.data.POPULATION;
+      })
+      .catch((err) => console.error(err.response.data.message));
   }
 
   // On load set the initial timer if required
@@ -161,5 +209,10 @@ export async function createHotel(
     );
   } else {
     hotelData.upgrade ? finishUpgrade() : finishBuild();
+  }
+
+  // Display required resources
+  if (hotelData.build) {
+    updateResources();
   }
 }

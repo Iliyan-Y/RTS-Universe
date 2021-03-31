@@ -2,7 +2,7 @@ import * as GUI from '@babylonjs/gui';
 
 export function createGuiContainer(advancedTexture) {
   var container = new GUI.Rectangle();
-  container.width = 0.2;
+  container.width = 0.25;
   container.height = 0.2;
   container.cornerRadius = 10;
   container.color = 'Orange';
