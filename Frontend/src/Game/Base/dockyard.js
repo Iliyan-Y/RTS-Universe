@@ -119,7 +119,7 @@ export async function createDockyard(
         let newData = dockyardData;
         newData.upgrade = false;
         newData.level += 1;
-        title.text = 'Base Level: ' + newData.level;
+        title.text = 'Dockyard Level: ' + newData.level;
         setDockyardData(newData);
         constructBtn.textBlock.text = 'Upgrade';
       })
@@ -153,7 +153,7 @@ export async function createDockyard(
           let updateData = dockyardData;
           updateData.build = true;
           updateData.level += 1;
-          title.text = 'Base Level: ' + updateData.level;
+          title.text = 'Dockyard Level: ' + updateData.level;
           setDockyardData(updateData);
           changeBuildingOpacity(scene, 'DOCKYARD');
           constructBtn.textBlock.text = 'Upgrade';

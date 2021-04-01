@@ -183,9 +183,9 @@ public class Base {
   public Map<Enum<Resources>, Integer> upgradeCost() {
     return Map.of(
         Resources.STARDUST, 2 + this.level,
-        Resources.POWER, 2 + this.level,
+        Resources.POWER, 1 + this.level,
         Resources.POPULATION, 2 + this.level,
-        Resources.TIME, 0 + this.level);
+        Resources.TIME, 1 + this.level);
   }
 
   private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
