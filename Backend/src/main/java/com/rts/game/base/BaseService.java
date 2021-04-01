@@ -26,9 +26,9 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildDockyard(Long baseId) {
+  public Dockyard buildDockyard(Long baseId) {
     Base base = getBaseById(baseId);
-    base.construct(new Dockyard(BuildingsType.DOCKYARD));
+    return (Dockyard) base.construct(new Dockyard(BuildingsType.DOCKYARD));
   }
 
   @Transactional
@@ -52,9 +52,9 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildPit(Long baseId) {
+  public StardustPit buildPit(Long baseId) {
     Base base = getBaseById(baseId);
-    base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
+    return (StardustPit) base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
   }
 
   @Transactional
@@ -93,9 +93,10 @@ public class BaseService {
   }
 
   @Transactional
-  public void upgrade(Long baseId) {
+  public Base upgrade(Long baseId) {
     Base base = getBaseById(baseId);
     base.upgrade();
+    return base;
   }
 
   @Transactional
@@ -111,6 +112,11 @@ public class BaseService {
     base.setUpgrading(false);
     base.setLevel(base.getLevel() + 1);
     base.setPowerPerTime(base.getPowerPerTime() + 1);
+  }
+
+  public Map<Enum<Resources>, Integer> getBaseCost(Long baseId) {
+    Base base = getBaseById(baseId);
+    return base.upgradeCost();
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis

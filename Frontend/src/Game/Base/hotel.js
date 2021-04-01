@@ -125,9 +125,9 @@ export async function createHotel(
           container,
           finishBuild
         );
+        constructBtn.textBlock.text = 'Building';
       })
       .catch((err) => console.error(err.response.data.message));
-    constructBtn.textBlock.text = 'Building';
   }
 
   function finishBuild() {

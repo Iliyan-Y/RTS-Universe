@@ -2,7 +2,7 @@ import * as GUI from '@babylonjs/gui';
 
 export function createGuiContainer(advancedTexture) {
   var container = new GUI.Rectangle();
-  container.width = 0.25;
+  container.width = 0.27;
   container.height = 0.2;
   container.cornerRadius = 10;
   container.color = 'Orange';
@@ -51,33 +51,42 @@ export function resourceLabels(
   stardust,
   population
 ) {
+  let resLabelLeft = '-36%';
+  let resLabelTop = -20;
+
   var title = new GUI.TextBlock();
   title.text = name;
   title.top = '-35%';
   container.addControl(title);
 
+  var reqLabel = new GUI.TextBlock();
+  reqLabel.text = 'Requires';
+  reqLabel.top = '-36%';
+  reqLabel.left = '-36%';
+  container.addControl(reqLabel);
+
   var timeLabel = new GUI.TextBlock();
   timeLabel.text = 'Time: ' + time;
-  timeLabel.top = '-34%';
-  timeLabel.left = '-35%';
+  timeLabel.top = resLabelTop + '%';
+  timeLabel.left = resLabelLeft;
   container.addControl(timeLabel);
 
   var powerLabel = new GUI.TextBlock();
   powerLabel.text = 'Pow: ' + power;
-  powerLabel.top = (-34 + 13).toString() + '%';
-  powerLabel.left = '-35%';
+  powerLabel.top = (resLabelTop + 13).toString() + '%';
+  powerLabel.left = resLabelLeft;
   container.addControl(powerLabel);
 
   var starLabel = new GUI.TextBlock();
   starLabel.text = 'Star: ' + stardust;
-  starLabel.top = (-34 + 2 * 13).toString() + '%';
-  starLabel.left = '-35%';
+  starLabel.top = (resLabelTop + 2 * 13).toString() + '%';
+  starLabel.left = resLabelLeft;
   container.addControl(starLabel);
 
   var popLabel = new GUI.TextBlock();
   popLabel.text = 'Pop: ' + population;
-  popLabel.top = (-34 + 3 * 13).toString() + '%';
-  popLabel.left = '-35%';
+  popLabel.top = (resLabelTop + 3 * 13).toString() + '%';
+  popLabel.left = resLabelLeft;
   container.addControl(popLabel);
 
   var closeBtn = GUI.Button.CreateSimpleButton('Close', 'X');
@@ -93,5 +102,5 @@ export function resourceLabels(
     container.isVisible = false;
   });
 
-  return [timeLabel, powerLabel, starLabel, popLabel];
+  return [timeLabel, powerLabel, starLabel, popLabel, title];
 }

@@ -20,14 +20,15 @@ import { createSkyBox } from './skyBox';
 const Base = () => {
   let [baseData, setBaseData] = useState(null);
   let [hotelData, setHotelData] = useState({ build: false });
-  let [dockyard, setDockyard] = useState({ build: false });
-  let [stardustPit, setStardustPit] = useState({ build: false });
-  let [sceneReady, setSceneReady] = useState();
+  let [dockyardData, setDockyardData] = useState({ build: false });
+  let [stardustPitData, setStardustPitData] = useState({ build: false });
   let [reload, setReaLoad] = useState(true);
 
   useEffect(() => {
     getBaseData();
-    return console.log('clean');
+    return () => {
+      console.log('clean');
+    };
   }, []);
 
   function getBaseData() {
@@ -48,10 +49,10 @@ const Base = () => {
           setHotelData(building);
         }
         if (building.type === 'DOCKYARD') {
-          setDockyard(building);
+          setDockyardData(building);
         }
         if (building.type === 'STARDUST_PIT') {
-          setStardustPit(building);
+          setStardustPitData(building);
         }
       });
     }
@@ -80,8 +81,14 @@ const Base = () => {
     var advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI');
     var light = new HemisphericLight('light', new Vector3(30, 9, 0), scene);
     light.intensity = 0.7;
-    await createBaseBuilding(scene, advancedTexture);
-    await createDockyard(scene);
+    await createBaseBuilding(scene, advancedTexture, baseData, setBaseData);
+    await createDockyard(
+      scene,
+      advancedTexture,
+      dockyardData,
+      setDockyardData,
+      baseData.id
+    );
     await createHotel(
       scene,
       advancedTexture,
@@ -89,16 +96,19 @@ const Base = () => {
       setHotelData,
       baseData.id
     );
-    await createStardustPit(scene);
+    await createStardustPit(
+      scene,
+      advancedTexture,
+      stardustPitData,
+      setStardustPitData,
+      baseData.id
+    );
     await createSkyBox(scene);
     //setSceneReady(scene);
     //on click select element
     //selectElement(scene);
   };
 
-  /**
-   * Will run on every frame render.  We are spinning the box on y-axis.
-   */
   const onRender = (scene) => {
     // if (box !== undefined) {
     //   var deltaTimeInMillis = scene.getEngine().getDeltaTime();
