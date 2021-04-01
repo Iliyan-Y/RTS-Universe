@@ -26,9 +26,9 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildDockyard(Long baseId) {
+  public Dockyard buildDockyard(Long baseId) {
     Base base = getBaseById(baseId);
-    base.construct(new Dockyard(BuildingsType.DOCKYARD));
+    return (Dockyard) base.construct(new Dockyard(BuildingsType.DOCKYARD));
   }
 
   @Transactional
@@ -52,9 +52,9 @@ public class BaseService {
   }
 
   @Transactional
-  public void buildPit(Long baseId) {
+  public StardustPit buildPit(Long baseId) {
     Base base = getBaseById(baseId);
-    base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
+    return (StardustPit) base.construct(new StardustPit(BuildingsType.STARDUST_PIT));
   }
 
   @Transactional

@@ -1,6 +1,8 @@
 package com.rts.game.base;
 
+import com.rts.game.buildings.Dockyard;
 import com.rts.game.buildings.SpaceHotel;
+import com.rts.game.buildings.StardustPit;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,8 +24,8 @@ public class BaseController {
   }
 
   @GetMapping(path = "{baseId}/build/dockyard")
-  public void buildDockyard(@PathVariable("baseId") Long baseId) {
-    baseService.buildDockyard(baseId);
+  public Dockyard buildDockyard(@PathVariable("baseId") Long baseId) {
+    return baseService.buildDockyard(baseId);
   }
 
   @PostMapping(path = "complete/dockyard")
@@ -42,8 +44,8 @@ public class BaseController {
   }
 
   @GetMapping(path = "{baseId}/build/pit")
-  public void buildPit(@PathVariable("baseId") Long baseId) {
-    baseService.buildPit(baseId);
+  public StardustPit buildPit(@PathVariable("baseId") Long baseId) {
+    return baseService.buildPit(baseId);
   }
 
   @PostMapping(path = "complete/pit")
