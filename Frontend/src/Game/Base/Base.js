@@ -21,7 +21,7 @@ const Base = () => {
   let [baseData, setBaseData] = useState(null);
   let [hotelData, setHotelData] = useState({ build: false });
   let [dockyardData, setDockyardData] = useState({ build: false });
-  let [stardustPit, setStardustPit] = useState({ build: false });
+  let [stardustPitData, setStardustPitData] = useState({ build: false });
   let [reload, setReaLoad] = useState(true);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Base = () => {
           setDockyardData(building);
         }
         if (building.type === 'STARDUST_PIT') {
-          setStardustPit(building);
+          setStardustPitData(building);
         }
       });
     }
@@ -96,7 +96,13 @@ const Base = () => {
       setHotelData,
       baseData.id
     );
-    await createStardustPit(scene);
+    await createStardustPit(
+      scene,
+      advancedTexture,
+      stardustPitData,
+      setStardustPitData,
+      baseData.id
+    );
     await createSkyBox(scene);
     //setSceneReady(scene);
     //on click select element
