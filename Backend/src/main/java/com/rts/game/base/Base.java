@@ -180,6 +180,14 @@ public class Base {
     this.setCompleteTime(upgradeCost().get(Resources.TIME));
   }
 
+  public Map<Enum<Resources>, Integer> upgradeCost() {
+    return Map.of(
+        Resources.STARDUST, 2 + this.level,
+        Resources.POWER, 2 + this.level,
+        Resources.POPULATION, 2 + this.level,
+        Resources.TIME, 0 + this.level);
+  }
+
   private Boolean checkForBuilding(Enum<BuildingsType> buildingType) {
     if (this.getBuildings().isEmpty()) {
       return false;
@@ -207,15 +215,4 @@ public class Base {
     this.setStardust(this.getStardust() - cost.get(Resources.STARDUST));
     this.setPopulation(this.getPopulation() + cost.get(Resources.POPULATION));
   }
-
-
-  private Map<Enum<Resources>, Integer> upgradeCost() {
-    return Map.of(
-        Resources.STARDUST, 2 + this.level,
-        Resources.POWER, 2 + this.level,
-        Resources.POPULATION, 2 + this.level,
-        Resources.TIME, 2 + this.level);
-  }
-
-
 }

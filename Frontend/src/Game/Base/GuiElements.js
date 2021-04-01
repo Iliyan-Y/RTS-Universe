@@ -93,5 +93,5 @@ export function resourceLabels(
     container.isVisible = false;
   });
 
-  return [timeLabel, powerLabel, starLabel, popLabel];
+  return [timeLabel, powerLabel, starLabel, popLabel, title];
 }

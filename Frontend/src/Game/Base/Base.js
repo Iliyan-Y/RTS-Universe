@@ -81,7 +81,7 @@ const Base = () => {
     var advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI');
     var light = new HemisphericLight('light', new Vector3(30, 9, 0), scene);
     light.intensity = 0.7;
-    await createBaseBuilding(scene, advancedTexture);
+    await createBaseBuilding(scene, advancedTexture, baseData, setBaseData);
     await createDockyard(
       scene,
       advancedTexture,

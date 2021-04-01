@@ -77,13 +77,19 @@ public class BaseController {
   }
 
   @GetMapping(path = "{baseId}/upgrade")
-  public void upgradeBase(@PathVariable("baseId") Long baseId) {
-      baseService.upgrade(baseId);
+  public Base upgradeBase(@PathVariable("baseId") Long baseId) {
+     return baseService.upgrade(baseId);
   }
 
   @GetMapping(path = "{baseId}/completeUpgrade")
   public void completeUpgrade(@PathVariable("baseId") Long baseId) {
     baseService.completeUpgrade(baseId);
+  }
+
+  @GetMapping(path = "{baseId}/getCost")
+  public Map<Enum<Resources>, Integer> getBaseCost(@PathVariable("baseId")
+                                                   Long baseId) {
+    return baseService.getBaseCost(baseId);
   }
 
 }

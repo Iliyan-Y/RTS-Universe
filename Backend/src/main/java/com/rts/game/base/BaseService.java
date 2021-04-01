@@ -93,9 +93,10 @@ public class BaseService {
   }
 
   @Transactional
-  public void upgrade(Long baseId) {
+  public Base upgrade(Long baseId) {
     Base base = getBaseById(baseId);
     base.upgrade();
+    return base;
   }
 
   @Transactional
@@ -111,6 +112,11 @@ public class BaseService {
     base.setUpgrading(false);
     base.setLevel(base.getLevel() + 1);
     base.setPowerPerTime(base.getPowerPerTime() + 1);
+  }
+
+  public Map<Enum<Resources>, Integer> getBaseCost(Long baseId) {
+    Base base = getBaseById(baseId);
+    return base.upgradeCost();
   }
 
   @Scheduled(fixedRate = 2 * 60 * 1000) // min * sec * millis
