@@ -63,9 +63,9 @@ export async function createDockyard(
   );
 
   // ---- Gui Elements Section ----
-  let [timeLabel, powerLabel, starLabel, popLabel] = resourceLabels(
+  let [timeLabel, powerLabel, starLabel, popLabel, title] = resourceLabels(
     container,
-    'Dockyard',
+    dockyardData.level ? `Dockyard Level: ${dockyardData.level}` : 'Dockyard',
     60,
     1,
     2,
@@ -118,6 +118,8 @@ export async function createDockyard(
       .then(() => {
         let newData = dockyardData;
         newData.upgrade = false;
+        newData.level += 1;
+        title.text = 'Base Level: ' + newData.level;
         setDockyardData(newData);
         constructBtn.textBlock.text = 'Upgrade';
       })
@@ -136,9 +138,9 @@ export async function createDockyard(
           container,
           finishBuild
         );
+        constructBtn.textBlock.text = 'Building';
       })
       .catch((err) => console.error(err.response.data.message));
-    constructBtn.textBlock.text = 'Building';
   }
 
   function finishBuild() {
@@ -150,6 +152,8 @@ export async function createDockyard(
         if (res.status === 200) {
           let updateData = dockyardData;
           updateData.build = true;
+          updateData.level += 1;
+          title.text = 'Base Level: ' + updateData.level;
           setDockyardData(updateData);
           changeBuildingOpacity(scene, 'DOCKYARD');
           constructBtn.textBlock.text = 'Upgrade';
