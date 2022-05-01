@@ -1,3 +1,76 @@
+# Requirements
+
+- java run time env
+- yarn
+- postgresql
+
+# Dev requirements to start the game
+
+## Backend
+
+Create a database `rtsuniverse` in postgresql an
+
+```
+$psql
+postgress=#CREATE DATABASE rtsuniverse
+```
+
+update the file `Backend/src/main/resources/application.properties`
+
+Backend first start - change the hibernate `spring.jpa.hibernate.ddl-auto` from `create-drop` to `create`. (to preserve the date in the db `update` can be used after)
+
+```
+#spring.jpa.hibernate.ddl-auto=create
+#spring.jpa.hibernate.ddl-auto=create-drop
+```
+
+change the username and password for the psql
+
+```
+spring.datasource.username=iliyan
+spring.datasource.password=
+```
+
+`zz
+start the main function to create the db resources
+
+check if all tables exists
+
+```
+$psql
+postgress=#\c rtsuniverse
+rtsuniverse=# \d
+rtsuniverse=# \d players
+rtsuniverse=# \d base
+rtsuniverse=# \q
+```
+
+## Create the first player
+
+send POST request to `localhost:8080/api/v1/player` with body:
+
+```
+  "email": "example@email.com",
+   "name": "SomeName",
+   "base": "Unreal"
+```
+
+check if the player is created Get request `http://localhost:8080/api/v1/player`
+
+if all ok you are to run the front end;
+
+## Frontend
+
+```
+yarn install
+yarn start
+```
+
+Welcome home !
+
+![Game Structure](assets/home.png)
+![Game Structure](assets/home2.png)
+
 # RTS-Universe
 
 Real time online space strategy game, based on classic 4X (Explore, Expand, Exploit, Exterminate) scenario.
@@ -30,3 +103,7 @@ Java, Spring boot, Babylonjs, React, Postgresql
 ![Game Structure](assets/Structure.png)
 ![Class Relations](assets/BasicRelations.png)
 ![Real Time Diagram](assets/RTSdiagram.png)
+
+```
+
+```
