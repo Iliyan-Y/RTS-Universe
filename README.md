@@ -1,3 +1,19 @@
+# Screenshots
+
+<table>
+<tr>
+<td>
+<img src="assets/home.png" alt="drawing" width="350"/>
+</td>
+<td>
+<img src="assets/home2.png" alt="drawing" width="350"/>
+</td>
+<td>
+<img src="assets/home4.png" alt="drawing" width="350"/>
+</td>
+</tr>
+</table>
+
 # Requirements
 
 - java run time env
